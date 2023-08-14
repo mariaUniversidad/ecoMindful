@@ -1,20 +1,17 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Main.java to edit this template
- */
 package ecomindful;
 
-/**
- *
- * @author Maluli
- */
-public class Ecomindful {
+import conexionDB.conexionMysql;
+import authentication.login;
 
-    /**
-     * @param args the command line arguments
-     */
+
+public class Ecomindful {
     public static void main(String[] args) {
-        // TODO code application logic here
+        
+        conexionMysql conexion = new conexionMysql();
+        conexion.getDbConnection();
+        
+        login inicio = new login();
+        inicio.setVisible(true);
     }
     
 }
