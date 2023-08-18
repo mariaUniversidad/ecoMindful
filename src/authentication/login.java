@@ -39,10 +39,10 @@ public class login extends javax.swing.JFrame {
         usuario = new javax.swing.JTextField();
         categoria = new javax.swing.JComboBox<>();
         clave = new javax.swing.JPasswordField();
-        showPassword = new javax.swing.JButton();
         cerrar = new javax.swing.JButton();
         Registrarse = new javax.swing.JButton();
         Ingresar = new javax.swing.JButton();
+        mostrar = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
@@ -70,10 +70,12 @@ public class login extends javax.swing.JFrame {
 
         clave.setForeground(new java.awt.Color(0, 51, 51));
         clave.setBorder(null);
-        jPanel1.add(clave, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 210, 200, 30));
-
-        showPassword.setText("jButton1");
-        jPanel1.add(showPassword, new org.netbeans.lib.awtextra.AbsoluteConstraints(230, 210, 40, -1));
+        clave.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                claveActionPerformed(evt);
+            }
+        });
+        jPanel1.add(clave, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 210, 180, 30));
 
         cerrar.setBackground(new java.awt.Color(243, 250, 250));
         cerrar.setFont(new java.awt.Font("Yu Gothic UI", 1, 12)); // NOI18N
@@ -112,6 +114,14 @@ public class login extends javax.swing.JFrame {
             }
         });
         jPanel1.add(Ingresar, new org.netbeans.lib.awtextra.AbsoluteConstraints(190, 320, 90, 30));
+
+        mostrar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/Imagen3.png"))); // NOI18N
+        mostrar.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                mostrarMouseClicked(evt);
+            }
+        });
+        jPanel1.add(mostrar, new org.netbeans.lib.awtextra.AbsoluteConstraints(260, 210, 30, 30));
 
         jLabel2.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         jLabel2.setForeground(new java.awt.Color(255, 255, 255));
@@ -177,6 +187,16 @@ public class login extends javax.swing.JFrame {
         entidadRegistro.setUsuario(usuario.getText());
         entidadRegistro.setClave(String.valueOf(this.clave.getPassword()));
         entidadRegistro.setFk_id_Persona(Categoria);
+           // Validar la longitud del nombre de usuario y la contraseña
+    if (entidadRegistro.getUsuario().isEmpty() || entidadRegistro.getUsuario().length() > 20) {
+        JOptionPane.showMessageDialog(rootPane, "Debe ingresar un usuario válido de hasta 20 caracteres.", "Advertencia", JOptionPane.INFORMATION_MESSAGE);
+        return;
+    }
+
+    if (entidadRegistro.getClave().isEmpty() || entidadRegistro.getClave().length() > 20) {
+        JOptionPane.showMessageDialog(rootPane, "Debe ingresar una contraseña válida de hasta 20 caracteres.", "Advertencia", JOptionPane.INFORMATION_MESSAGE);
+        return;
+    }
         // Comprobar si el nombre de usuario y la contraseña están completos
         if (entidadRegistro.getUsuario().isEmpty()) {
         JOptionPane.showMessageDialog(rootPane, "Debe ingresar el usuario.", "Advertencia", JOptionPane.INFORMATION_MESSAGE);
@@ -221,6 +241,22 @@ public class login extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_IngresarActionPerformed
 
+    private void mostrarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_mostrarMouseClicked
+       if (clave.getEchoChar() == '\u2022') {
+    // Mostrar la contraseña 
+    clave.setEchoChar((char) 0);
+    mostrar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/location, location.toExternalForm"))); 
+} else {
+    // Ocultar la contraseña 
+    clave.setEchoChar('\u2022');
+    mostrar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/location, location.toExternalForm"))); 
+}
+    }//GEN-LAST:event_mostrarMouseClicked
+
+    private void claveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_claveActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_claveActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton Ingresar;
@@ -233,7 +269,7 @@ public class login extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel4;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JLabel loginBackground;
-    private javax.swing.JButton showPassword;
+    private javax.swing.JLabel mostrar;
     private javax.swing.JTextField usuario;
     // End of variables declaration//GEN-END:variables
 }
