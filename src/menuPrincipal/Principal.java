@@ -14,7 +14,13 @@ public class Principal extends javax.swing.JFrame {
      * Creates new form Principal
      */
     public Principal() {
+        //inicio de componentes
         initComponents();
+        this.panelInicio.setVisible(true);
+        this.panelHistorico.setVisible(false);
+        this.panelConfig.setVisible(false);
+        this.panelJugar.setVisible(false);
+
     }
 
     /**
@@ -26,21 +32,191 @@ public class Principal extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        jPanel1 = new javax.swing.JPanel();
+        jugar = new javax.swing.JButton();
+        Configuracón = new javax.swing.JButton();
+        inicio = new javax.swing.JButton();
+        historico = new javax.swing.JButton();
+        panelJugar = new javax.swing.JPanel();
+        panelHistorico = new javax.swing.JPanel();
+        panelConfig = new javax.swing.JPanel();
+        jLabel1 = new javax.swing.JLabel();
+        panelInicio = new javax.swing.JPanel();
+        background = new javax.swing.JLabel();
+
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setResizable(false);
+
+        jPanel1.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        jugar.setBackground(new java.awt.Color(0, 102, 73));
+        jugar.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        jugar.setForeground(new java.awt.Color(255, 255, 255));
+        jugar.setText("Jugar");
+        jugar.setBorder(null);
+        jugar.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        jugar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jugarActionPerformed(evt);
+            }
+        });
+        jPanel1.add(jugar, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 170, 160, 40));
+
+        Configuracón.setBackground(new java.awt.Color(0, 102, 73));
+        Configuracón.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        Configuracón.setForeground(new java.awt.Color(255, 255, 255));
+        Configuracón.setText("Configuración");
+        Configuracón.setBorder(null);
+        Configuracón.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        Configuracón.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                ConfiguracónActionPerformed(evt);
+            }
+        });
+        jPanel1.add(Configuracón, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 220, 160, 40));
+
+        inicio.setBackground(new java.awt.Color(0, 102, 73));
+        inicio.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        inicio.setForeground(new java.awt.Color(255, 255, 255));
+        inicio.setText("Inicio");
+        inicio.setBorder(null);
+        inicio.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        inicio.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                inicioActionPerformed(evt);
+            }
+        });
+        jPanel1.add(inicio, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 70, 160, 40));
+
+        historico.setBackground(new java.awt.Color(0, 102, 73));
+        historico.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        historico.setForeground(new java.awt.Color(255, 255, 255));
+        historico.setText("Histórico");
+        historico.setBorder(null);
+        historico.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        historico.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                historicoActionPerformed(evt);
+            }
+        });
+        jPanel1.add(historico, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 120, 160, 40));
+
+        panelJugar.setBackground(new java.awt.Color(255, 255, 255));
+
+        javax.swing.GroupLayout panelJugarLayout = new javax.swing.GroupLayout(panelJugar);
+        panelJugar.setLayout(panelJugarLayout);
+        panelJugarLayout.setHorizontalGroup(
+            panelJugarLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 620, Short.MAX_VALUE)
+        );
+        panelJugarLayout.setVerticalGroup(
+            panelJugarLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 410, Short.MAX_VALUE)
+        );
+
+        jPanel1.add(panelJugar, new org.netbeans.lib.awtextra.AbsoluteConstraints(240, 90, 620, 410));
+
+        panelHistorico.setBackground(new java.awt.Color(255, 255, 255));
+
+        javax.swing.GroupLayout panelHistoricoLayout = new javax.swing.GroupLayout(panelHistorico);
+        panelHistorico.setLayout(panelHistoricoLayout);
+        panelHistoricoLayout.setHorizontalGroup(
+            panelHistoricoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 620, Short.MAX_VALUE)
+        );
+        panelHistoricoLayout.setVerticalGroup(
+            panelHistoricoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 400, Short.MAX_VALUE)
+        );
+
+        jPanel1.add(panelHistorico, new org.netbeans.lib.awtextra.AbsoluteConstraints(240, 100, 620, 400));
+
+        panelConfig.setBackground(new java.awt.Color(255, 255, 255));
+
+        jLabel1.setBackground(new java.awt.Color(102, 0, 204));
+        jLabel1.setFont(new java.awt.Font("Segoe UI", 0, 24)); // NOI18N
+        jLabel1.setForeground(new java.awt.Color(0, 102, 102));
+        jLabel1.setText("   Configuración de preguntas y respuestas");
+
+        javax.swing.GroupLayout panelConfigLayout = new javax.swing.GroupLayout(panelConfig);
+        panelConfig.setLayout(panelConfigLayout);
+        panelConfigLayout.setHorizontalGroup(
+            panelConfigLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(jLabel1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 620, Short.MAX_VALUE)
+        );
+        panelConfigLayout.setVerticalGroup(
+            panelConfigLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(panelConfigLayout.createSequentialGroup()
+                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 368, Short.MAX_VALUE))
+        );
+
+        jPanel1.add(panelConfig, new org.netbeans.lib.awtextra.AbsoluteConstraints(240, 90, 620, 410));
+
+        panelInicio.setBackground(new java.awt.Color(255, 255, 255));
+
+        javax.swing.GroupLayout panelInicioLayout = new javax.swing.GroupLayout(panelInicio);
+        panelInicio.setLayout(panelInicioLayout);
+        panelInicioLayout.setHorizontalGroup(
+            panelInicioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 620, Short.MAX_VALUE)
+        );
+        panelInicioLayout.setVerticalGroup(
+            panelInicioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 410, Short.MAX_VALUE)
+        );
+
+        jPanel1.add(panelInicio, new org.netbeans.lib.awtextra.AbsoluteConstraints(240, 90, 620, 410));
+
+        background.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/menuPrincipal.png"))); // NOI18N
+        jPanel1.add(background, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 890, 500));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 400, Short.MAX_VALUE)
+            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 300, Short.MAX_VALUE)
+            .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void inicioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_inicioActionPerformed
+        this.panelInicio.setVisible(true);
+        this.panelHistorico.setVisible(false);
+        this.panelConfig.setVisible(false);
+        this.panelJugar.setVisible(false);
+    }//GEN-LAST:event_inicioActionPerformed
+
+    private void historicoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_historicoActionPerformed
+        // accion del boton historico
+        this.panelInicio.setVisible(false);
+        this.panelHistorico.setVisible(true);
+        this.panelConfig.setVisible(false);
+        this.panelJugar.setVisible(false);
+    }//GEN-LAST:event_historicoActionPerformed
+
+    private void jugarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jugarActionPerformed
+        // accion del boton jugar
+        this.panelInicio.setVisible(false);
+        this.panelHistorico.setVisible(false);
+        this.panelConfig.setVisible(false);
+        this.panelJugar.setVisible(true);
+    }//GEN-LAST:event_jugarActionPerformed
+
+    private void ConfiguracónActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ConfiguracónActionPerformed
+        // accion del boton de configuracion de preguntas y respuestas
+        this.panelInicio.setVisible(false);
+        this.panelHistorico.setVisible(false);
+        this.panelConfig.setVisible(true);
+        this.panelJugar.setVisible(false);
+
+
+    }//GEN-LAST:event_ConfiguracónActionPerformed
 
     /**
      * @param args the command line arguments
@@ -78,5 +254,16 @@ public class Principal extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton Configuracón;
+    private javax.swing.JLabel background;
+    private javax.swing.JButton historico;
+    private javax.swing.JButton inicio;
+    private javax.swing.JLabel jLabel1;
+    private javax.swing.JPanel jPanel1;
+    private javax.swing.JButton jugar;
+    private javax.swing.JPanel panelConfig;
+    private javax.swing.JPanel panelHistorico;
+    private javax.swing.JPanel panelInicio;
+    private javax.swing.JPanel panelJugar;
     // End of variables declaration//GEN-END:variables
 }
