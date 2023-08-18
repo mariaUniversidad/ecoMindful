@@ -12,6 +12,9 @@ public class Ecomindful {
         
         login inicio = new login();
         inicio.setVisible(true);
+        inicio.setResizable(false);
+        inicio.setLocationRelativeTo(null);
+
     }
     
 }

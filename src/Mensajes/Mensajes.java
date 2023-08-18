@@ -12,11 +12,11 @@ import javax.swing.JOptionPane;
     }
 
     public static void usuarioInvalido() {
-        JOptionPane.showMessageDialog(null, "El usuario solo debe contener caracteres alfanuméricos sin espacios", "Error", JOptionPane.ERROR_MESSAGE);
+        JOptionPane.showMessageDialog(null, "El usuario debe contener hasta 20 caracteres de tipo alfanuméricos y sin espacios", "Error", JOptionPane.ERROR_MESSAGE);
     }
 
     public static void contraseniaInvalida() {
-        JOptionPane.showMessageDialog(null, "La contraseña debe tener al menos una letra mayúscula, una letra minúscula, un número, un carácter especial y ser de al menos 8 caracteres", "Error", JOptionPane.ERROR_MESSAGE);
+        JOptionPane.showMessageDialog(null, "La contraseña debe tener letras mayúsculas y minúscula, un número, un caracter especial y tener entre 8 y 20 caracteres", "Error", JOptionPane.ERROR_MESSAGE);
     }
 
     public static void nombresInvalidos() {

@@ -27,6 +27,7 @@ public class login extends javax.swing.JFrame {
         }
 
         initComponents();
+
         conexion = new conexionMysql();
     }
 
