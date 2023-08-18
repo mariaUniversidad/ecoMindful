@@ -5,8 +5,11 @@ import java.sql.PreparedStatement;
 import conexionDB.conexionMysql;
 import forms.tb_registro;
 import java.sql.SQLException;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 import javax.swing.JOptionPane;
 import javax.swing.UIManager;
+import Mensajes.Mensajes;
 
 public class registrar extends javax.swing.JFrame {
 
@@ -20,6 +23,7 @@ public class registrar extends javax.swing.JFrame {
             System.err.println(ex);
         }
         initComponents();
+        
 
         conexion = new conexionMysql();
     }
@@ -61,6 +65,11 @@ public class registrar extends javax.swing.JFrame {
         jPanel1.add(clave, new org.netbeans.lib.awtextra.AbsoluteConstraints(360, 210, 270, 30));
 
         categoriaRegistro.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Seleccione...", "Docente", "Alumno" }));
+        categoriaRegistro.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                categoriaRegistroActionPerformed(evt);
+            }
+        });
         jPanel1.add(categoriaRegistro, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 270, 550, 30));
 
         jLabel1.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
@@ -150,7 +159,7 @@ public class registrar extends javax.swing.JFrame {
             Categoria = -1;
             JOptionPane.showMessageDialog(rootPane, "Debe ingresar la categoría para continuar", "Error", JOptionPane.ERROR_MESSAGE);
             return;
-        };
+        }
 
         entidadRegistro.setNombres(nombre.getText());
         entidadRegistro.setApellido(apellido.getText());
@@ -180,6 +189,47 @@ public class registrar extends javax.swing.JFrame {
         }
 
     }//GEN-LAST:event_RegistrarseActionPerformed
+
+    private void categoriaRegistroActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_categoriaRegistroActionPerformed
+            
+      System.out.println("Datos de acceso: " + usuario.getText());
+
+    String passwordRegex = "^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[@#$%^&+=!*]).{8,}$";
+    Pattern pattern = Pattern.compile(passwordRegex);
+    Matcher matcher = pattern.matcher(String.valueOf(clave.getText()));
+
+    boolean isValid = true; // Variable para verificar si todos los campos son válidos
+
+    if (usuario.getText().isEmpty() || 
+        nombre.getText().isEmpty() || 
+        apellido.getText().isEmpty()) {
+        Mensajes.campoVacio();
+        isValid = false;
+    }
+
+    if (!usuario.getText().matches("^[a-zA-Z0-9]*$")) {
+        Mensajes.usuarioInvalido();
+        isValid = false;
+    }
+
+    if (!matcher.matches()) {
+        Mensajes.contraseniaInvalida();
+        isValid = false;
+    }
+
+    if (!nombre.getText().matches("^[a-zA-Z ]*$") || !apellido.getText().matches("^[a-zA-Z ]*$")) {
+        Mensajes.nombresInvalidos();
+        isValid = false;
+    }
+
+    if (!isValid) {
+        categoriaRegistro.setSelectedIndex(0); // Desseleccionar la categoría
+    }
+
+    // Habilitar o deshabilitar el botón según la variable isValid
+    Registrarse.setEnabled(isValid);
+
+    }//GEN-LAST:event_categoriaRegistroActionPerformed
 
     private void CloseWindow() {
         this.dispose();
