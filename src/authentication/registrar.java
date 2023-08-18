@@ -192,42 +192,42 @@ public class registrar extends javax.swing.JFrame {
 
     private void categoriaRegistroActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_categoriaRegistroActionPerformed
             
-      System.out.println("Datos de acceso: " + usuario.getText());
+        System.out.println("Datos de acceso: " + usuario.getText());
 
-    String passwordRegex = "^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[@#$%^&+=!*]).{8,}$";
-    Pattern pattern = Pattern.compile(passwordRegex);
-    Matcher matcher = pattern.matcher(String.valueOf(clave.getText()));
+  String passwordRegex = "^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[@#$%^&+=!*]).{8,20}$";
+  Pattern pattern = Pattern.compile(passwordRegex);
+  Matcher matcher = pattern.matcher(String.valueOf(clave.getText()));
 
-    boolean isValid = true; // Variable para verificar si todos los campos son válidos
+  boolean isValid = true; // Variable para verificar si todos los campos son válidos
 
-    if (usuario.getText().isEmpty() || 
-        nombre.getText().isEmpty() || 
-        apellido.getText().isEmpty()) {
-        Mensajes.campoVacio();
-        isValid = false;
-    }
+  if (usuario.getText().isEmpty() || 
+      nombre.getText().isEmpty() || 
+      apellido.getText().isEmpty()) {
+      Mensajes.campoVacio();
+      isValid = false;
+  }
 
-    if (!usuario.getText().matches("^[a-zA-Z0-9]*$")) {
-        Mensajes.usuarioInvalido();
-        isValid = false;
-    }
+  if (!usuario.getText().matches("^[a-zA-Z0-9]{1,20}$")) {
+      Mensajes.usuarioInvalido();
+      isValid = false;
+  }
 
-    if (!matcher.matches()) {
-        Mensajes.contraseniaInvalida();
-        isValid = false;
-    }
+  if (!matcher.matches()) {
+      Mensajes.contraseniaInvalida();
+      isValid = false;
+  }
 
-    if (!nombre.getText().matches("^[a-zA-Z ]*$") || !apellido.getText().matches("^[a-zA-Z ]*$")) {
-        Mensajes.nombresInvalidos();
-        isValid = false;
-    }
+  if (!nombre.getText().matches("^[a-zA-Z ]{1,50}$") || !apellido.getText().matches("^[a-zA-Z ]{1,50}$")) {
+      Mensajes.nombresInvalidos();
+      isValid = false;
+  }
 
-    if (!isValid) {
-        categoriaRegistro.setSelectedIndex(0); // Desseleccionar la categoría
-    }
+  if (!isValid) {
+      categoriaRegistro.setSelectedIndex(0); // Desseleccionar la categoría
+  }
 
-    // Habilitar o deshabilitar el botón según la variable isValid
-    Registrarse.setEnabled(isValid);
+  // Habilitar o deshabilitar el botón según la variable isValid
+  Registrarse.setEnabled(isValid);
 
     }//GEN-LAST:event_categoriaRegistroActionPerformed
 

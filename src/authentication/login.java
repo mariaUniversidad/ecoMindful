@@ -27,6 +27,8 @@ public class login extends javax.swing.JFrame {
         }
 
         initComponents();
+        this.ocultar.setVisible(false);
+
         conexion = new conexionMysql();
     }
 
@@ -37,6 +39,8 @@ public class login extends javax.swing.JFrame {
         jPanel1 = new javax.swing.JPanel();
         usuario = new javax.swing.JTextField();
         categoria = new javax.swing.JComboBox<>();
+        ocultar = new javax.swing.JLabel();
+        ver = new javax.swing.JLabel();
         clave = new javax.swing.JPasswordField();
         showPassword = new javax.swing.JButton();
         cerrar = new javax.swing.JButton();
@@ -67,11 +71,32 @@ public class login extends javax.swing.JFrame {
         categoria.setBorder(null);
         jPanel1.add(categoria, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 260, 200, 30));
 
+        ocultar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/ocultar_32px.png"))); // NOI18N
+        ocultar.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                ocultarMouseClicked(evt);
+            }
+        });
+        jPanel1.add(ocultar, new org.netbeans.lib.awtextra.AbsoluteConstraints(250, 210, 30, 30));
+
+        ver.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/ver_32px.png"))); // NOI18N
+        ver.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                verMouseClicked(evt);
+            }
+        });
+        jPanel1.add(ver, new org.netbeans.lib.awtextra.AbsoluteConstraints(250, 210, 30, 30));
+
         clave.setForeground(new java.awt.Color(0, 51, 51));
         clave.setBorder(null);
         jPanel1.add(clave, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 210, 200, 30));
 
         showPassword.setText("jButton1");
+        showPassword.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                showPasswordActionPerformed(evt);
+            }
+        });
         jPanel1.add(showPassword, new org.netbeans.lib.awtextra.AbsoluteConstraints(230, 210, 40, -1));
 
         cerrar.setBackground(new java.awt.Color(243, 250, 250));
@@ -196,6 +221,22 @@ public class login extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_IngresarActionPerformed
 
+    private void showPasswordActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_showPasswordActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_showPasswordActionPerformed
+
+    private void verMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_verMouseClicked
+        ver.setVisible(false);
+        ocultar.setVisible(true);
+        clave.setEchoChar((char)0);
+    }//GEN-LAST:event_verMouseClicked
+
+    private void ocultarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_ocultarMouseClicked
+        ver.setVisible(true);
+        ocultar.setVisible(false);
+        clave.setEchoChar('◉');
+    }//GEN-LAST:event_ocultarMouseClicked
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton Ingresar;
@@ -208,7 +249,9 @@ public class login extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel4;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JLabel loginBackground;
+    private javax.swing.JLabel ocultar;
     private javax.swing.JButton showPassword;
     private javax.swing.JTextField usuario;
+    private javax.swing.JLabel ver;
     // End of variables declaration//GEN-END:variables
 }
