@@ -42,7 +42,6 @@ public class login extends javax.swing.JFrame {
         cerrar = new javax.swing.JButton();
         Registrarse = new javax.swing.JButton();
         Ingresar = new javax.swing.JButton();
-        mostrar = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
@@ -114,14 +113,6 @@ public class login extends javax.swing.JFrame {
             }
         });
         jPanel1.add(Ingresar, new org.netbeans.lib.awtextra.AbsoluteConstraints(190, 320, 90, 30));
-
-        mostrar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/Imagen3.png"))); // NOI18N
-        mostrar.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                mostrarMouseClicked(evt);
-            }
-        });
-        jPanel1.add(mostrar, new org.netbeans.lib.awtextra.AbsoluteConstraints(260, 210, 30, 30));
 
         jLabel2.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         jLabel2.setForeground(new java.awt.Color(255, 255, 255));
@@ -241,18 +232,6 @@ public class login extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_IngresarActionPerformed
 
-    private void mostrarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_mostrarMouseClicked
-       if (clave.getEchoChar() == '\u2022') {
-    // Mostrar la contraseña 
-    clave.setEchoChar((char) 0);
-    mostrar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/location, location.toExternalForm"))); 
-} else {
-    // Ocultar la contraseña 
-    clave.setEchoChar('\u2022');
-    mostrar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/location, location.toExternalForm"))); 
-}
-    }//GEN-LAST:event_mostrarMouseClicked
-
     private void claveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_claveActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_claveActionPerformed
@@ -269,7 +248,6 @@ public class login extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel4;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JLabel loginBackground;
-    private javax.swing.JLabel mostrar;
     private javax.swing.JTextField usuario;
     // End of variables declaration//GEN-END:variables
 }
