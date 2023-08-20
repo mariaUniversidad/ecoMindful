@@ -43,6 +43,7 @@ public class login extends javax.swing.JFrame {
         ocultar = new javax.swing.JLabel();
         ver = new javax.swing.JLabel();
         clave = new javax.swing.JPasswordField();
+        showPassword = new javax.swing.JButton();
         cerrar = new javax.swing.JButton();
         Registrarse = new javax.swing.JButton();
         Ingresar = new javax.swing.JButton();
@@ -94,7 +95,7 @@ public class login extends javax.swing.JFrame {
                 claveActionPerformed(evt);
             }
         });
-        jPanel1.add(clave, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 210, 180, 30));
+        jPanel1.add(clave, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 210, 200, 30));
 
         showPassword.setText("jButton1");
         showPassword.addActionListener(new java.awt.event.ActionListener() {
