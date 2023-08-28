@@ -4,11 +4,28 @@
  */
 package menuPrincipal;
 
+import conexionDB.conexionMysql;
+import forms.RespuestaSeleccionUsuario;
+import forms.tb_quiz;
+import forms.tb_respuestas;
+import java.util.ArrayList;
+import java.util.List;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.util.Collections;
+import javax.swing.JOptionPane;
+
 /**
  *
  * @author Maluli
  */
 public class Principal extends javax.swing.JFrame {
+
+    conexionMysql conexionDB = null;
+    int recorridoPlay = 0;
+    List<tb_quiz> listaPreguntasPlay = new ArrayList<>();
+    List<RespuestaSeleccionUsuario> listaRespuestaPlay = new ArrayList<>();
 
     /**
      * Creates new form Principal
@@ -16,11 +33,13 @@ public class Principal extends javax.swing.JFrame {
     public Principal() {
         //inicio de componentes
         initComponents();
+
+        conexionDB = new conexionMysql();
         this.panelInicio.setVisible(true);
         this.panelHistorico.setVisible(false);
         this.panelConfig.setVisible(false);
-        this.panelJugar.setVisible(false);
-
+        this.panelPlay.setVisible(false);
+        this.panelQuiz.setVisible(false);
     }
 
     /**
@@ -32,22 +51,59 @@ public class Principal extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jPanel1 = new javax.swing.JPanel();
+        btnGrupoConfigPreguntas = new javax.swing.ButtonGroup();
+        btnGrupoPreguntas = new javax.swing.ButtonGroup();
+        panelContenedor = new javax.swing.JPanel();
         jugar = new javax.swing.JButton();
-        Configuracón = new javax.swing.JButton();
+        Configuracion = new javax.swing.JButton();
         inicio = new javax.swing.JButton();
         historico = new javax.swing.JButton();
-        panelJugar = new javax.swing.JPanel();
-        panelHistorico = new javax.swing.JPanel();
         panelConfig = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
+        jLabel2 = new javax.swing.JLabel();
+        guardarPreguntaRespConf = new javax.swing.JButton();
+        cancelarPreguntaRespConf = new javax.swing.JButton();
+        resp1 = new javax.swing.JTextField();
+        preguntaConf = new javax.swing.JTextField();
+        jLabel4 = new javax.swing.JLabel();
+        resp3 = new javax.swing.JTextField();
+        resp2 = new javax.swing.JTextField();
+        resp4 = new javax.swing.JTextField();
+        jLabel5 = new javax.swing.JLabel();
+        validateBtn4 = new javax.swing.JRadioButton();
+        validateBtn3 = new javax.swing.JRadioButton();
+        validateBtn2 = new javax.swing.JRadioButton();
+        validateBtn1 = new javax.swing.JRadioButton();
         panelInicio = new javax.swing.JPanel();
+        jLabel3 = new javax.swing.JLabel();
+        panelHistorico = new javax.swing.JPanel();
+        jLabel6 = new javax.swing.JLabel();
+        panelPlay = new javax.swing.JPanel();
+        btnSencillo = new javax.swing.JButton();
+        btnDificil = new javax.swing.JButton();
+        btnNormal = new javax.swing.JButton();
+        jLabel7 = new javax.swing.JLabel();
+        panelQuiz = new javax.swing.JPanel();
+        playRespuesta2 = new javax.swing.JTextField();
+        playPregunta = new javax.swing.JTextField();
+        playRespuesta1 = new javax.swing.JTextField();
+        playRespuesta3 = new javax.swing.JTextField();
+        playRespuesta4 = new javax.swing.JTextField();
+        jLabel9 = new javax.swing.JLabel();
+        labelNumPregunta = new javax.swing.JLabel();
+        jLabel11 = new javax.swing.JLabel();
+        rbPlayOpt1 = new javax.swing.JRadioButton();
+        rbPlayOpt2 = new javax.swing.JRadioButton();
+        rbPlayOpt3 = new javax.swing.JRadioButton();
+        rbPlayOpt4 = new javax.swing.JRadioButton();
+        btnPlayNextQuestion = new javax.swing.JButton();
+        btnFinalizarPlay = new javax.swing.JButton();
         background = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setResizable(false);
 
-        jPanel1.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+        panelContenedor.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         jugar.setBackground(new java.awt.Color(0, 102, 73));
         jugar.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
@@ -60,20 +116,20 @@ public class Principal extends javax.swing.JFrame {
                 jugarActionPerformed(evt);
             }
         });
-        jPanel1.add(jugar, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 170, 160, 40));
+        panelContenedor.add(jugar, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 170, 160, 40));
 
-        Configuracón.setBackground(new java.awt.Color(0, 102, 73));
-        Configuracón.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
-        Configuracón.setForeground(new java.awt.Color(255, 255, 255));
-        Configuracón.setText("Configuración");
-        Configuracón.setBorder(null);
-        Configuracón.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        Configuracón.addActionListener(new java.awt.event.ActionListener() {
+        Configuracion.setBackground(new java.awt.Color(0, 102, 73));
+        Configuracion.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        Configuracion.setForeground(new java.awt.Color(255, 255, 255));
+        Configuracion.setText("Configuración");
+        Configuracion.setBorder(null);
+        Configuracion.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        Configuracion.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                ConfiguracónActionPerformed(evt);
+                ConfiguracionActionPerformed(evt);
             }
         });
-        jPanel1.add(Configuracón, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 220, 160, 40));
+        panelContenedor.add(Configuracion, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 220, 160, 40));
 
         inicio.setBackground(new java.awt.Color(0, 102, 73));
         inicio.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
@@ -86,7 +142,7 @@ public class Principal extends javax.swing.JFrame {
                 inicioActionPerformed(evt);
             }
         });
-        jPanel1.add(inicio, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 70, 160, 40));
+        panelContenedor.add(inicio, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 70, 160, 40));
 
         historico.setBackground(new java.awt.Color(0, 102, 73));
         historico.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
@@ -99,87 +155,402 @@ public class Principal extends javax.swing.JFrame {
                 historicoActionPerformed(evt);
             }
         });
-        jPanel1.add(historico, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 120, 160, 40));
-
-        panelJugar.setBackground(new java.awt.Color(255, 255, 255));
-
-        javax.swing.GroupLayout panelJugarLayout = new javax.swing.GroupLayout(panelJugar);
-        panelJugar.setLayout(panelJugarLayout);
-        panelJugarLayout.setHorizontalGroup(
-            panelJugarLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 620, Short.MAX_VALUE)
-        );
-        panelJugarLayout.setVerticalGroup(
-            panelJugarLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 410, Short.MAX_VALUE)
-        );
-
-        jPanel1.add(panelJugar, new org.netbeans.lib.awtextra.AbsoluteConstraints(240, 90, 620, 410));
-
-        panelHistorico.setBackground(new java.awt.Color(255, 255, 255));
-
-        javax.swing.GroupLayout panelHistoricoLayout = new javax.swing.GroupLayout(panelHistorico);
-        panelHistorico.setLayout(panelHistoricoLayout);
-        panelHistoricoLayout.setHorizontalGroup(
-            panelHistoricoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 620, Short.MAX_VALUE)
-        );
-        panelHistoricoLayout.setVerticalGroup(
-            panelHistoricoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 400, Short.MAX_VALUE)
-        );
-
-        jPanel1.add(panelHistorico, new org.netbeans.lib.awtextra.AbsoluteConstraints(240, 100, 620, 400));
+        panelContenedor.add(historico, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 120, 160, 40));
 
         panelConfig.setBackground(new java.awt.Color(255, 255, 255));
+        panelConfig.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(239, 250, 244), 5, true));
+        panelConfig.setForeground(new java.awt.Color(243, 244, 243));
 
-        jLabel1.setBackground(new java.awt.Color(102, 0, 204));
+        jLabel1.setBackground(new java.awt.Color(205, 221, 213));
         jLabel1.setFont(new java.awt.Font("Segoe UI", 0, 24)); // NOI18N
         jLabel1.setForeground(new java.awt.Color(0, 102, 102));
-        jLabel1.setText("   Configuración de preguntas y respuestas");
+        jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/edit-tools.png"))); // NOI18N
+        jLabel1.setText("Configuración de preguntas y respuestas");
+
+        jLabel2.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        jLabel2.setForeground(new java.awt.Color(0, 102, 51));
+        jLabel2.setText("Pregunta");
+
+        guardarPreguntaRespConf.setBackground(new java.awt.Color(0, 102, 51));
+        guardarPreguntaRespConf.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        guardarPreguntaRespConf.setForeground(new java.awt.Color(255, 255, 255));
+        guardarPreguntaRespConf.setText("Guardar");
+        guardarPreguntaRespConf.setBorder(null);
+        guardarPreguntaRespConf.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                guardarPreguntaRespConfActionPerformed(evt);
+            }
+        });
+
+        cancelarPreguntaRespConf.setBackground(new java.awt.Color(209, 220, 215));
+        cancelarPreguntaRespConf.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        cancelarPreguntaRespConf.setForeground(new java.awt.Color(0, 102, 51));
+        cancelarPreguntaRespConf.setText("Cancelar");
+        cancelarPreguntaRespConf.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cancelarPreguntaRespConfActionPerformed(evt);
+            }
+        });
+
+        jLabel4.setText("Seleccione la respuesta que usted evaluará como correcta");
+
+        resp3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                resp3ActionPerformed(evt);
+            }
+        });
+
+        jLabel5.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        jLabel5.setForeground(new java.awt.Color(0, 102, 51));
+        jLabel5.setText("Respuestas");
+
+        btnGrupoConfigPreguntas.add(validateBtn4);
+
+        btnGrupoConfigPreguntas.add(validateBtn3);
+
+        btnGrupoConfigPreguntas.add(validateBtn2);
+
+        btnGrupoConfigPreguntas.add(validateBtn1);
 
         javax.swing.GroupLayout panelConfigLayout = new javax.swing.GroupLayout(panelConfig);
         panelConfig.setLayout(panelConfigLayout);
         panelConfigLayout.setHorizontalGroup(
             panelConfigLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jLabel1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 620, Short.MAX_VALUE)
+            .addComponent(jLabel1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelConfigLayout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(panelConfigLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(preguntaConf, javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, panelConfigLayout.createSequentialGroup()
+                        .addGroup(panelConfigLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(jLabel2, javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel4, javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel5, javax.swing.GroupLayout.Alignment.LEADING))
+                        .addGap(0, 0, Short.MAX_VALUE))
+                    .addGroup(panelConfigLayout.createSequentialGroup()
+                        .addGap(0, 16, Short.MAX_VALUE)
+                        .addGroup(panelConfigLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addGroup(panelConfigLayout.createSequentialGroup()
+                                .addComponent(validateBtn3)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(resp3, javax.swing.GroupLayout.PREFERRED_SIZE, 561, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(panelConfigLayout.createSequentialGroup()
+                                .addComponent(validateBtn2)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(resp2, javax.swing.GroupLayout.PREFERRED_SIZE, 561, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(panelConfigLayout.createSequentialGroup()
+                                .addComponent(validateBtn4)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addGroup(panelConfigLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelConfigLayout.createSequentialGroup()
+                                        .addComponent(cancelarPreguntaRespConf, javax.swing.GroupLayout.PREFERRED_SIZE, 113, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                        .addComponent(guardarPreguntaRespConf, javax.swing.GroupLayout.PREFERRED_SIZE, 113, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addComponent(resp4, javax.swing.GroupLayout.PREFERRED_SIZE, 561, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                            .addGroup(panelConfigLayout.createSequentialGroup()
+                                .addComponent(validateBtn1)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(resp1, javax.swing.GroupLayout.PREFERRED_SIZE, 561, javax.swing.GroupLayout.PREFERRED_SIZE)))))
+                .addContainerGap())
         );
         panelConfigLayout.setVerticalGroup(
             panelConfigLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(panelConfigLayout.createSequentialGroup()
                 .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 368, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jLabel2)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(preguntaConf, javax.swing.GroupLayout.PREFERRED_SIZE, 55, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jLabel5)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jLabel4)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 19, Short.MAX_VALUE)
+                .addGroup(panelConfigLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(resp1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(validateBtn1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(panelConfigLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(resp2, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(validateBtn2, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(panelConfigLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(resp3, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(validateBtn3, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(panelConfigLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(resp4, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(validateBtn4, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(panelConfigLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(guardarPreguntaRespConf, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(cancelarPreguntaRespConf, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(0, 0, 0))
         );
 
-        jPanel1.add(panelConfig, new org.netbeans.lib.awtextra.AbsoluteConstraints(240, 90, 620, 410));
+        panelContenedor.add(panelConfig, new org.netbeans.lib.awtextra.AbsoluteConstraints(220, 80, 630, 400));
 
         panelInicio.setBackground(new java.awt.Color(255, 255, 255));
+        panelInicio.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(239, 250, 244), 5, true));
+        panelInicio.setForeground(new java.awt.Color(243, 244, 243));
+
+        jLabel3.setBackground(new java.awt.Color(102, 0, 204));
+        jLabel3.setFont(new java.awt.Font("Segoe UI", 0, 24)); // NOI18N
+        jLabel3.setForeground(new java.awt.Color(0, 102, 102));
+        jLabel3.setText("Ecomindful te enseña...");
 
         javax.swing.GroupLayout panelInicioLayout = new javax.swing.GroupLayout(panelInicio);
         panelInicio.setLayout(panelInicioLayout);
         panelInicioLayout.setHorizontalGroup(
             panelInicioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 620, Short.MAX_VALUE)
+            .addComponent(jLabel3, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         panelInicioLayout.setVerticalGroup(
             panelInicioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 410, Short.MAX_VALUE)
+            .addGroup(panelInicioLayout.createSequentialGroup()
+                .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(348, Short.MAX_VALUE))
         );
 
-        jPanel1.add(panelInicio, new org.netbeans.lib.awtextra.AbsoluteConstraints(240, 90, 620, 410));
+        panelContenedor.add(panelInicio, new org.netbeans.lib.awtextra.AbsoluteConstraints(220, 80, 620, 400));
 
-        background.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/menuPrincipal.png"))); // NOI18N
-        jPanel1.add(background, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 890, 500));
+        panelHistorico.setBackground(new java.awt.Color(255, 255, 255));
+        panelHistorico.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(239, 250, 244), 5, true));
+        panelHistorico.setForeground(new java.awt.Color(243, 244, 243));
+
+        jLabel6.setBackground(new java.awt.Color(102, 0, 204));
+        jLabel6.setFont(new java.awt.Font("Segoe UI", 0, 24)); // NOI18N
+        jLabel6.setForeground(new java.awt.Color(0, 102, 102));
+        jLabel6.setText("Histórico de puntajes");
+
+        javax.swing.GroupLayout panelHistoricoLayout = new javax.swing.GroupLayout(panelHistorico);
+        panelHistorico.setLayout(panelHistoricoLayout);
+        panelHistoricoLayout.setHorizontalGroup(
+            panelHistoricoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(jLabel6, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 610, Short.MAX_VALUE)
+        );
+        panelHistoricoLayout.setVerticalGroup(
+            panelHistoricoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(panelHistoricoLayout.createSequentialGroup()
+                .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(348, Short.MAX_VALUE))
+        );
+
+        panelContenedor.add(panelHistorico, new org.netbeans.lib.awtextra.AbsoluteConstraints(220, 80, 620, 400));
+
+        panelPlay.setBackground(new java.awt.Color(255, 255, 255));
+        panelPlay.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(239, 250, 244), 5, true));
+        panelPlay.setForeground(new java.awt.Color(243, 244, 243));
+
+        btnSencillo.setBackground(new java.awt.Color(0, 102, 51));
+        btnSencillo.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
+        btnSencillo.setForeground(new java.awt.Color(255, 255, 255));
+        btnSencillo.setText("Sencillo");
+        btnSencillo.setBorder(null);
+        btnSencillo.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnSencilloActionPerformed(evt);
+            }
+        });
+
+        btnDificil.setBackground(new java.awt.Color(0, 102, 51));
+        btnDificil.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
+        btnDificil.setForeground(new java.awt.Color(255, 255, 255));
+        btnDificil.setText("Difícil");
+        btnDificil.setBorder(null);
+        btnDificil.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnDificilActionPerformed(evt);
+            }
+        });
+
+        btnNormal.setBackground(new java.awt.Color(0, 102, 51));
+        btnNormal.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
+        btnNormal.setForeground(new java.awt.Color(255, 255, 255));
+        btnNormal.setText("Normal");
+        btnNormal.setBorder(null);
+        btnNormal.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnNormalActionPerformed(evt);
+            }
+        });
+
+        jLabel7.setBackground(new java.awt.Color(102, 0, 204));
+        jLabel7.setFont(new java.awt.Font("Segoe UI", 0, 24)); // NOI18N
+        jLabel7.setForeground(new java.awt.Color(0, 102, 102));
+        jLabel7.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/capas.png"))); // NOI18N
+        jLabel7.setText("Seleccione un nivel para continuar");
+
+        javax.swing.GroupLayout panelPlayLayout = new javax.swing.GroupLayout(panelPlay);
+        panelPlay.setLayout(panelPlayLayout);
+        panelPlayLayout.setHorizontalGroup(
+            panelPlayLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(panelPlayLayout.createSequentialGroup()
+                .addGap(11, 11, 11)
+                .addComponent(jLabel7, javax.swing.GroupLayout.PREFERRED_SIZE, 608, javax.swing.GroupLayout.PREFERRED_SIZE))
+            .addGroup(panelPlayLayout.createSequentialGroup()
+                .addGap(111, 111, 111)
+                .addComponent(btnSencillo, javax.swing.GroupLayout.PREFERRED_SIZE, 380, javax.swing.GroupLayout.PREFERRED_SIZE))
+            .addGroup(panelPlayLayout.createSequentialGroup()
+                .addGap(111, 111, 111)
+                .addComponent(btnNormal, javax.swing.GroupLayout.PREFERRED_SIZE, 380, javax.swing.GroupLayout.PREFERRED_SIZE))
+            .addGroup(panelPlayLayout.createSequentialGroup()
+                .addGap(111, 111, 111)
+                .addComponent(btnDificil, javax.swing.GroupLayout.PREFERRED_SIZE, 380, javax.swing.GroupLayout.PREFERRED_SIZE))
+        );
+        panelPlayLayout.setVerticalGroup(
+            panelPlayLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(panelPlayLayout.createSequentialGroup()
+                .addGap(11, 11, 11)
+                .addComponent(jLabel7, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(50, 50, 50)
+                .addComponent(btnSencillo, javax.swing.GroupLayout.PREFERRED_SIZE, 58, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(btnNormal, javax.swing.GroupLayout.PREFERRED_SIZE, 58, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(btnDificil, javax.swing.GroupLayout.PREFERRED_SIZE, 58, javax.swing.GroupLayout.PREFERRED_SIZE))
+        );
+
+        panelContenedor.add(panelPlay, new org.netbeans.lib.awtextra.AbsoluteConstraints(220, 80, 620, 400));
+
+        panelQuiz.setBackground(new java.awt.Color(255, 255, 255));
+        panelQuiz.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(239, 250, 244), 5, true));
+        panelQuiz.setForeground(new java.awt.Color(243, 244, 243));
+
+        playRespuesta2.setEditable(false);
+
+        playPregunta.setEditable(false);
+
+        playRespuesta1.setEditable(false);
+
+        playRespuesta3.setEditable(false);
+
+        playRespuesta4.setEditable(false);
+
+        jLabel9.setBackground(new java.awt.Color(102, 0, 204));
+        jLabel9.setFont(new java.awt.Font("Segoe UI", 0, 24)); // NOI18N
+        jLabel9.setForeground(new java.awt.Color(0, 102, 102));
+        jLabel9.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/boton-de-play.png"))); // NOI18N
+        jLabel9.setText("Responda las siguientes preguntas:");
+
+        labelNumPregunta.setText("Pregunta #1");
+
+        jLabel11.setText("Seleccione la respuesta:");
+
+        btnGrupoPreguntas.add(rbPlayOpt1);
+
+        btnGrupoPreguntas.add(rbPlayOpt2);
+
+        btnGrupoPreguntas.add(rbPlayOpt3);
+
+        btnGrupoPreguntas.add(rbPlayOpt4);
+
+        btnPlayNextQuestion.setText("Siguiente");
+        btnPlayNextQuestion.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnPlayNextQuestionActionPerformed(evt);
+            }
+        });
+
+        btnFinalizarPlay.setText("Finalizar");
+        btnFinalizarPlay.setEnabled(false);
+        btnFinalizarPlay.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnFinalizarPlayActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout panelQuizLayout = new javax.swing.GroupLayout(panelQuiz);
+        panelQuiz.setLayout(panelQuizLayout);
+        panelQuizLayout.setHorizontalGroup(
+            panelQuizLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(panelQuizLayout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(panelQuizLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel9, javax.swing.GroupLayout.DEFAULT_SIZE, 608, Short.MAX_VALUE)
+                    .addGroup(panelQuizLayout.createSequentialGroup()
+                        .addGroup(panelQuizLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(labelNumPregunta)
+                            .addComponent(jLabel11))
+                        .addGap(0, 0, Short.MAX_VALUE))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelQuizLayout.createSequentialGroup()
+                        .addGroup(panelQuizLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(panelQuizLayout.createSequentialGroup()
+                                .addComponent(rbPlayOpt1)
+                                .addGap(0, 0, Short.MAX_VALUE))
+                            .addGroup(panelQuizLayout.createSequentialGroup()
+                                .addGroup(panelQuizLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelQuizLayout.createSequentialGroup()
+                                        .addGap(0, 0, Short.MAX_VALUE)
+                                        .addGroup(panelQuizLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                            .addComponent(rbPlayOpt3)
+                                            .addComponent(rbPlayOpt2)))
+                                    .addGroup(panelQuizLayout.createSequentialGroup()
+                                        .addComponent(rbPlayOpt4)
+                                        .addGap(0, 0, Short.MAX_VALUE)))
+                                .addGap(18, 18, 18)))
+                        .addGroup(panelQuizLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(playRespuesta4, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 570, Short.MAX_VALUE)
+                            .addComponent(playRespuesta3, javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(playRespuesta2, javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(playRespuesta1, javax.swing.GroupLayout.Alignment.TRAILING)))
+                    .addComponent(playPregunta)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelQuizLayout.createSequentialGroup()
+                        .addGap(0, 0, Short.MAX_VALUE)
+                        .addComponent(btnPlayNextQuestion)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(btnFinalizarPlay)))
+                .addContainerGap())
+        );
+        panelQuizLayout.setVerticalGroup(
+            panelQuizLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(panelQuizLayout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(panelQuizLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addGroup(panelQuizLayout.createSequentialGroup()
+                        .addComponent(jLabel9, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(labelNumPregunta)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(playPregunta, javax.swing.GroupLayout.PREFERRED_SIZE, 48, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jLabel11)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addGroup(panelQuizLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(playRespuesta1, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(rbPlayOpt1, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(14, 14, 14)
+                        .addComponent(playRespuesta2, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(rbPlayOpt2, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(panelQuizLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(playRespuesta3, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(rbPlayOpt3, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(panelQuizLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(playRespuesta4, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(rbPlayOpt4, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
+                .addGroup(panelQuizLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(btnPlayNextQuestion)
+                    .addComponent(btnFinalizarPlay))
+                .addContainerGap(22, Short.MAX_VALUE))
+        );
+
+        panelContenedor.add(panelQuiz, new org.netbeans.lib.awtextra.AbsoluteConstraints(220, 80, 630, 400));
+
+        background.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/menu.png"))); // NOI18N
+        panelContenedor.add(background, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 890, 500));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(panelContenedor, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+            .addComponent(panelContenedor, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
         );
 
         pack();
@@ -189,7 +560,7 @@ public class Principal extends javax.swing.JFrame {
         this.panelInicio.setVisible(true);
         this.panelHistorico.setVisible(false);
         this.panelConfig.setVisible(false);
-        this.panelJugar.setVisible(false);
+        this.panelPlay.setVisible(false);
     }//GEN-LAST:event_inicioActionPerformed
 
     private void historicoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_historicoActionPerformed
@@ -197,7 +568,7 @@ public class Principal extends javax.swing.JFrame {
         this.panelInicio.setVisible(false);
         this.panelHistorico.setVisible(true);
         this.panelConfig.setVisible(false);
-        this.panelJugar.setVisible(false);
+        this.panelPlay.setVisible(false);
     }//GEN-LAST:event_historicoActionPerformed
 
     private void jugarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jugarActionPerformed
@@ -205,18 +576,247 @@ public class Principal extends javax.swing.JFrame {
         this.panelInicio.setVisible(false);
         this.panelHistorico.setVisible(false);
         this.panelConfig.setVisible(false);
-        this.panelJugar.setVisible(true);
+        this.panelPlay.setVisible(true);
     }//GEN-LAST:event_jugarActionPerformed
 
-    private void ConfiguracónActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ConfiguracónActionPerformed
+    private void ConfiguracionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ConfiguracionActionPerformed
         // accion del boton de configuracion de preguntas y respuestas
         this.panelInicio.setVisible(false);
         this.panelHistorico.setVisible(false);
         this.panelConfig.setVisible(true);
-        this.panelJugar.setVisible(false);
+        this.panelPlay.setVisible(false);
 
 
-    }//GEN-LAST:event_ConfiguracónActionPerformed
+    }//GEN-LAST:event_ConfiguracionActionPerformed
+
+    private void resp3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_resp3ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_resp3ActionPerformed
+
+    private void cancelarPreguntaRespConfActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cancelarPreguntaRespConfActionPerformed
+        // TODO add your handling code here:
+        this.panelPlay.setVisible(false);
+        this.panelQuiz.setVisible(true);
+    }//GEN-LAST:event_cancelarPreguntaRespConfActionPerformed
+
+    private void btnSencilloActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSencilloActionPerformed
+        //Accion de seleccion de boton sencillo
+        consultarPreguntasBD(5);
+
+        this.panelPlay.setVisible(false);
+        this.panelQuiz.setVisible(true);
+
+        presentarPreguntaPlay(recorridoPlay);
+    }//GEN-LAST:event_btnSencilloActionPerformed
+
+    private void btnNormalActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNormalActionPerformed
+        //Accion de seleccion de boton normal
+        consultarPreguntasBD(10);
+
+        this.panelPlay.setVisible(false);
+        this.panelQuiz.setVisible(true);
+
+        presentarPreguntaPlay(recorridoPlay);
+    }//GEN-LAST:event_btnNormalActionPerformed
+
+    private void btnDificilActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDificilActionPerformed
+        //Accion de seleccion de boton dificil
+        consultarPreguntasBD(20);
+
+        this.panelPlay.setVisible(false);
+        this.panelQuiz.setVisible(true);
+
+        presentarPreguntaPlay(recorridoPlay);
+    }//GEN-LAST:event_btnDificilActionPerformed
+
+    private void guardarPreguntaRespConfActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_guardarPreguntaRespConfActionPerformed
+        // boton de accion para guardar configuracion de preguntas y respuestas
+        tb_quiz tbQuiz = new tb_quiz();
+        List<tb_respuestas> arrayRespuestas = new ArrayList<>();
+
+        //obtener pregunta de la configuracion
+        tbQuiz.setPregunta(preguntaConf.getText());
+
+        String queryQuiz = "Insert into tb_Quiz (pregunta)"
+                + "values(?) ";
+        int idQuiz = 0; //reemplazar por el ID generado del insert
+        try (Connection conn = conexionDB.getDbConnection(); PreparedStatement ps = conn.prepareStatement(queryQuiz, PreparedStatement.RETURN_GENERATED_KEYS)) {
+
+            ps.setString(1, tbQuiz.getPregunta());
+            ps.execute();
+            try (ResultSet idGenerado = ps.getGeneratedKeys()) {
+                if (idGenerado.next()) {
+                    idQuiz = idGenerado.getInt(1);
+                    System.out.println("id obtenido: " + idQuiz);
+                }
+            }
+
+        } catch (Exception ex) {
+            System.out.println("problemas con la insercion de la cabecera de pregunta: " + ex);
+            return;
+        }
+
+        //Armamos neustro arreglo de respuesta
+        arrayRespuestas.add(new tb_respuestas(resp1.getText(), validateBtn1.isSelected()));
+        arrayRespuestas.add(new tb_respuestas(resp2.getText(), validateBtn2.isSelected()));
+        arrayRespuestas.add(new tb_respuestas(resp3.getText(), validateBtn3.isSelected()));
+        arrayRespuestas.add(new tb_respuestas(resp4.getText(), validateBtn4.isSelected()));
+        //todo: falta agregar los demas valores de la respuesta
+
+        String queryResponse = "insert into tb_quiz_Response (respuestas, validate, fk_id_quiz ) values(?,?,?)";
+
+        try (Connection conn = conexionDB.getDbConnection(); PreparedStatement ps = conn.prepareStatement(queryResponse)) {
+            int i = 0;
+            for (tb_respuestas respuesta : arrayRespuestas) {
+                ps.setString(1, respuesta.getRespuestas());
+                ps.setBoolean(2, respuesta.isValidate());
+                ps.setInt(3, idQuiz);
+
+                ps.addBatch();
+                i++;
+                if (i % 1000 == 0 || i == arrayRespuestas.size()) {
+                    ps.executeBatch(); // Execute every 1000 items.
+                }
+            }
+
+            JOptionPane.showMessageDialog(null, "Insercion de pregunta y respuesta exitosa!");
+        } catch (Exception ex) {
+            JOptionPane.showMessageDialog(null, "Problemas con la insercion de la pregunta o respuesta: " + ex);
+        }
+
+    }//GEN-LAST:event_guardarPreguntaRespConfActionPerformed
+
+    private void btnPlayNextQuestionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPlayNextQuestionActionPerformed
+        // TODO add your handling code here:
+
+        almacenarOpcionEscogidaJuego();
+
+        this.recorridoPlay += 1;
+
+        this.labelNumPregunta.setText("Pregunta #" + (this.recorridoPlay + 1));
+
+        this.rbPlayOpt1.setSelected(false);
+        this.rbPlayOpt2.setSelected(false);
+        this.rbPlayOpt3.setSelected(false);
+        this.rbPlayOpt4.setSelected(false);
+
+        this.playRespuesta1.setText("");
+        this.playRespuesta2.setText("");
+        this.playRespuesta3.setText("");
+        this.playRespuesta4.setText("");
+
+        System.out.println("Valor de recorrido: " + this.recorridoPlay
+                + " Valor de total de lista: " + (this.listaPreguntasPlay.size() - 1));
+        presentarPreguntaPlay(recorridoPlay);
+        if (this.recorridoPlay >= this.listaPreguntasPlay.size() - 1) {
+            this.btnFinalizarPlay.setEnabled(true);
+            this.btnPlayNextQuestion.setEnabled(false);
+        }
+    }//GEN-LAST:event_btnPlayNextQuestionActionPerformed
+
+    private void btnFinalizarPlayActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnFinalizarPlayActionPerformed
+        // TODO add your handling code here:
+        almacenarOpcionEscogidaJuego();
+
+        System.out.println(this.listaRespuestaPlay);
+    }//GEN-LAST:event_btnFinalizarPlayActionPerformed
+
+    public void almacenarOpcionEscogidaJuego() {
+        int opcionSeleccionada = -1;
+        if (rbPlayOpt1.isSelected()) {
+            opcionSeleccionada = 0;
+        } else if (rbPlayOpt2.isSelected()) {
+            opcionSeleccionada = 1;
+        } else if (rbPlayOpt3.isSelected()) {
+            opcionSeleccionada = 2;
+        } else if (rbPlayOpt4.isSelected()) {
+            opcionSeleccionada = 3;
+        }
+
+        listaRespuestaPlay.add(new RespuestaSeleccionUsuario(
+                this.recorridoPlay,
+                opcionSeleccionada
+        ));
+    }
+
+    public void inhabilitaOpcionesUsuario(int idPersona) {
+        if (idPersona == 2) {
+            Configuracion.setVisible(false);
+            //jugar.setVisible(true);
+        } else {
+            Configuracion.setVisible(true);
+            //jugar.setVisible(false);
+        }
+    }
+
+    void presentarPreguntaPlay(int recorrido) {
+        tb_quiz quiz = listaPreguntasPlay.get(recorrido);
+        this.playPregunta.setText(quiz.getPregunta());
+        List<tb_respuestas> listResp = quiz.getRespuestas() == null
+                ? Collections.emptyList() : quiz.getRespuestas();
+        for (int i = 0; i < listResp.size(); i++) {
+            if (i == 0) {
+                this.playRespuesta1.setText(listResp.get(0).getRespuestas());
+            }
+
+            if (i == 1) {
+                this.playRespuesta2.setText(listResp.get(1).getRespuestas());
+            }
+
+            if (i == 2) {
+                this.playRespuesta3.setText(listResp.get(2).getRespuestas());
+            }
+
+            if (i == 3) {
+                this.playRespuesta4.setText(listResp.get(3).getRespuestas());
+            }
+        }
+    }
+
+    public void consultarPreguntasBD(int maxPreguntas) {
+        String queryPreguntas = "select * from tb_Quiz order by rand() limit ?";
+
+        try (Connection conn = conexionDB.getDbConnection(); PreparedStatement ps = conn.prepareStatement(queryPreguntas)) {
+            ps.setInt(1, maxPreguntas);
+
+            try (ResultSet rs = ps.executeQuery()) {
+                while (rs.next()) {
+                    tb_quiz quiz = new tb_quiz(rs.getInt("idquiz"),
+                            rs.getString("pregunta"),
+                            consultaRespuestasByIdQuiz(conn, rs.getInt("idquiz")));
+
+                    listaPreguntasPlay.add(quiz);
+                }
+            }
+        } catch (Exception ex) {
+            System.err.println("Error en cargar preguntas: " + ex.getMessage());
+        }
+        System.out.println("Lista preguntas " + listaPreguntasPlay.toString());
+    }
+
+    private List<tb_respuestas> consultaRespuestasByIdQuiz(Connection conn, int idQuiz) {
+        List<tb_respuestas> listaRespuestas = new ArrayList<>();
+        String queryRespuestas = "select * from tb_quiz_Response where fk_id_quiz = ?";
+        try (PreparedStatement ps = conn.prepareCall(queryRespuestas)) {
+            ps.setInt(1, idQuiz);
+
+            try (ResultSet rs = ps.executeQuery()) {
+                while (rs.next()) {
+                    tb_respuestas response = new tb_respuestas(
+                            rs.getInt("idQuizResponse"),
+                            rs.getString("respuestas"),
+                            rs.getInt("validate") == 1
+                    );
+
+                    listaRespuestas.add(response);
+                }
+            }
+        } catch (Exception ex) {
+            System.err.println("Error en cargar respuestas: " + ex.getMessage());
+            listaRespuestas = Collections.emptyList();
+        }
+        return listaRespuestas;
+    }
 
     /**
      * @param args the command line arguments
@@ -253,17 +853,55 @@ public class Principal extends javax.swing.JFrame {
         });
     }
 
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton Configuracón;
+    private javax.swing.JButton Configuracion;
     private javax.swing.JLabel background;
+    private javax.swing.JButton btnDificil;
+    private javax.swing.JButton btnFinalizarPlay;
+    private javax.swing.ButtonGroup btnGrupoConfigPreguntas;
+    private javax.swing.ButtonGroup btnGrupoPreguntas;
+    private javax.swing.JButton btnNormal;
+    private javax.swing.JButton btnPlayNextQuestion;
+    private javax.swing.JButton btnSencillo;
+    private javax.swing.JButton cancelarPreguntaRespConf;
+    private javax.swing.JButton guardarPreguntaRespConf;
     private javax.swing.JButton historico;
     private javax.swing.JButton inicio;
     private javax.swing.JLabel jLabel1;
-    private javax.swing.JPanel jPanel1;
+    private javax.swing.JLabel jLabel11;
+    private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel jLabel5;
+    private javax.swing.JLabel jLabel6;
+    private javax.swing.JLabel jLabel7;
+    private javax.swing.JLabel jLabel9;
     private javax.swing.JButton jugar;
+    private javax.swing.JLabel labelNumPregunta;
     private javax.swing.JPanel panelConfig;
+    private javax.swing.JPanel panelContenedor;
     private javax.swing.JPanel panelHistorico;
     private javax.swing.JPanel panelInicio;
-    private javax.swing.JPanel panelJugar;
+    private javax.swing.JPanel panelPlay;
+    private javax.swing.JPanel panelQuiz;
+    private javax.swing.JTextField playPregunta;
+    private javax.swing.JTextField playRespuesta1;
+    private javax.swing.JTextField playRespuesta2;
+    private javax.swing.JTextField playRespuesta3;
+    private javax.swing.JTextField playRespuesta4;
+    private javax.swing.JTextField preguntaConf;
+    private javax.swing.JRadioButton rbPlayOpt1;
+    private javax.swing.JRadioButton rbPlayOpt2;
+    private javax.swing.JRadioButton rbPlayOpt3;
+    private javax.swing.JRadioButton rbPlayOpt4;
+    private javax.swing.JTextField resp1;
+    private javax.swing.JTextField resp2;
+    private javax.swing.JTextField resp3;
+    private javax.swing.JTextField resp4;
+    private javax.swing.JRadioButton validateBtn1;
+    private javax.swing.JRadioButton validateBtn2;
+    private javax.swing.JRadioButton validateBtn3;
+    private javax.swing.JRadioButton validateBtn4;
     // End of variables declaration//GEN-END:variables
 }

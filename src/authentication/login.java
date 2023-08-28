@@ -31,8 +31,7 @@ public class login extends javax.swing.JFrame {
 
         conexion = new conexionMysql();
     }
-       
-        
+
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -185,9 +184,8 @@ public class login extends javax.swing.JFrame {
     }//GEN-LAST:event_RegistrarseActionPerformed
 
     private void IngresarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_IngresarActionPerformed
-   
-         // Accion al iniciar sesion
-        
+
+        // Accion al iniciar sesion
         int Categoria = -1;
 
         tb_registro entidadRegistro = new tb_registro();
@@ -200,43 +198,39 @@ public class login extends javax.swing.JFrame {
             Categoria = -1;
             JOptionPane.showMessageDialog(rootPane, "Debe ingresar la categoría para continuar", "Error", JOptionPane.ERROR_MESSAGE);
             return;
-            
+
         };
-        
 
         entidadRegistro.setUsuario(usuario.getText());
         entidadRegistro.setClave(String.valueOf(this.clave.getPassword()));
         entidadRegistro.setFk_id_Persona(Categoria);
-           // Validar la longitud del nombre de usuario y la contraseña
-    if (entidadRegistro.getUsuario().isEmpty() || entidadRegistro.getUsuario().length() > 20) {
-        JOptionPane.showMessageDialog(rootPane, "Debe ingresar un usuario válido de hasta 20 caracteres.", "Advertencia", JOptionPane.INFORMATION_MESSAGE);
-        return;
-    }
+        // Validar la longitud del nombre de usuario y la contraseña
+        if (entidadRegistro.getUsuario().isEmpty() || entidadRegistro.getUsuario().length() > 20) {
+            JOptionPane.showMessageDialog(rootPane, "Debe ingresar un usuario válido de hasta 20 caracteres.", "Advertencia", JOptionPane.INFORMATION_MESSAGE);
+            return;
+        }
 
-    if (entidadRegistro.getClave().isEmpty() || entidadRegistro.getClave().length() > 20) {
-        JOptionPane.showMessageDialog(rootPane, "Debe ingresar una contraseña válida de hasta 20 caracteres.", "Advertencia", JOptionPane.INFORMATION_MESSAGE);
-        return;
-    }
+        if (entidadRegistro.getClave().isEmpty() || entidadRegistro.getClave().length() > 20) {
+            JOptionPane.showMessageDialog(rootPane, "Debe ingresar una contraseña válida de hasta 20 caracteres.", "Advertencia", JOptionPane.INFORMATION_MESSAGE);
+            return;
+        }
         // Comprobar si el nombre de usuario y la contraseña están completos
         if (entidadRegistro.getUsuario().isEmpty()) {
-        JOptionPane.showMessageDialog(rootPane, "Debe ingresar el usuario.", "Advertencia", JOptionPane.INFORMATION_MESSAGE);
-        return;
-          }
-         
-      
-    
-    if (entidadRegistro.getClave().isEmpty()) {
-        JOptionPane.showMessageDialog(rootPane, "Debe ingresar la contraseña.", "Advertencia", JOptionPane.INFORMATION_MESSAGE);
-        return;
-        
-    }
-    String passwordRegex = "^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[!*_\\.])[a-zA-Z\\d!*_\\.]{1,15}$";
+            JOptionPane.showMessageDialog(rootPane, "Debe ingresar el usuario.", "Advertencia", JOptionPane.INFORMATION_MESSAGE);
+            return;
+        }
 
-    if (!entidadRegistro.getClave().matches(passwordRegex)) {
-        JOptionPane.showMessageDialog(rootPane, "Contraseña no válida.\nDebe tener al menos una minúscula, una mayúscula, un dígito y un carácter especial (!, *, _).\nLongitud máxima de 15 caracteres.", "Advertencia", JOptionPane.WARNING_MESSAGE);
-        return;
-    }
-    
+        if (entidadRegistro.getClave().isEmpty()) {
+            JOptionPane.showMessageDialog(rootPane, "Debe ingresar la contraseña.", "Advertencia", JOptionPane.INFORMATION_MESSAGE);
+            return;
+
+        }
+        String passwordRegex = "^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[!*_\\.])[a-zA-Z\\d!*_\\.]{1,15}$";
+
+        if (!entidadRegistro.getClave().matches(passwordRegex)) {
+            JOptionPane.showMessageDialog(rootPane, "Contraseña no válida.\nDebe tener al menos una minúscula, una mayúscula, un dígito y un carácter especial (!, *, _).\nLongitud máxima de 15 caracteres.", "Advertencia", JOptionPane.WARNING_MESSAGE);
+            return;
+        }
 
         String sqlQuery = "select * from tb_registros where usuario = ? and clave = ? and fk_id_persona = ?";
         try (Connection conn = conexion.getDbConnection(); PreparedStatement ps = conn.prepareStatement(sqlQuery)) {
@@ -249,10 +243,12 @@ public class login extends javax.swing.JFrame {
                 if (rs.next()) {
                     this.dispose();
                     Principal menu = new Principal();
+                    System.out.println("id persona: "+ entidadRegistro.getFk_id_Persona());
                     menu.setVisible(true);
+                    menu.inhabilitaOpcionesUsuario(entidadRegistro.getFk_id_Persona());
                     //TODO: aplicar la logica para menu de estudiante o docente
-                }else{
-                JOptionPane.showMessageDialog(rootPane, "Error: " + "Lo sentimos, el registro no existe.", "Advertencia", JOptionPane.INFORMATION_MESSAGE);
+                } else {
+                    JOptionPane.showMessageDialog(rootPane, "Error: " + "Lo sentimos, el registro no existe.", "Advertencia", JOptionPane.INFORMATION_MESSAGE);
                 }
             }
 
@@ -272,7 +268,7 @@ public class login extends javax.swing.JFrame {
     private void verMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_verMouseClicked
         ver.setVisible(false);
         ocultar.setVisible(true);
-        clave.setEchoChar((char)0);
+        clave.setEchoChar((char) 0);
     }//GEN-LAST:event_verMouseClicked
 
     private void ocultarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_ocultarMouseClicked
