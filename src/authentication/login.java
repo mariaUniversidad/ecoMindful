@@ -243,9 +243,15 @@ public class login extends javax.swing.JFrame {
                 if (rs.next()) {
                     this.dispose();
                     Principal menu = new Principal();
-                    System.out.println("id persona: "+ entidadRegistro.getFk_id_Persona());
+
                     menu.setVisible(true);
                     menu.inhabilitaOpcionesUsuario(entidadRegistro.getFk_id_Persona());
+
+                    menu.obtenerNombreAlumnoLogin(rs.getString("nombres"));
+                    menu.obtenerApellidoAlumnoLogin(rs.getString("apellido"));
+                    menu.obtenerIdLogin(rs.getInt("id_registros"));
+                    System.out.println("id login" + rs.getInt("id_registros"));
+
                     //TODO: aplicar la logica para menu de estudiante o docente
                 } else {
                     JOptionPane.showMessageDialog(rootPane, "Error: " + "Lo sentimos, el registro no existe.", "Advertencia", JOptionPane.INFORMATION_MESSAGE);

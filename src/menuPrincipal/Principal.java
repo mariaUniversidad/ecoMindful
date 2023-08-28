@@ -26,6 +26,10 @@ public class Principal extends javax.swing.JFrame {
     int recorridoPlay = 0;
     List<tb_quiz> listaPreguntasPlay = new ArrayList<>();
     List<RespuestaSeleccionUsuario> listaRespuestaPlay = new ArrayList<>();
+    int totalPreguntasCorrectas = 0;
+    String nombreAlumno = "";
+    String apellidoAlumno = "";
+    int idLogin;
 
     /**
      * Creates new form Principal
@@ -40,6 +44,8 @@ public class Principal extends javax.swing.JFrame {
         this.panelConfig.setVisible(false);
         this.panelPlay.setVisible(false);
         this.panelQuiz.setVisible(false);
+        this.panelCalificacion.setVisible(false);
+
     }
 
     /**
@@ -98,6 +104,11 @@ public class Principal extends javax.swing.JFrame {
         rbPlayOpt4 = new javax.swing.JRadioButton();
         btnPlayNextQuestion = new javax.swing.JButton();
         btnFinalizarPlay = new javax.swing.JButton();
+        panelCalificacion = new javax.swing.JPanel();
+        btnSalirdeQuiz = new javax.swing.JButton();
+        jLabel10 = new javax.swing.JLabel();
+        jLabel12 = new javax.swing.JLabel();
+        calificacion = new javax.swing.JLabel();
         background = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -192,13 +203,23 @@ public class Principal extends javax.swing.JFrame {
             }
         });
 
+        resp1.setEditable(false);
+        resp1.setColumns(3);
+
         jLabel4.setText("Seleccione la respuesta que usted evaluará como correcta");
 
+        resp3.setEditable(false);
+        resp3.setColumns(3);
         resp3.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 resp3ActionPerformed(evt);
             }
         });
+
+        resp2.setEditable(false);
+        resp2.setColumns(3);
+
+        resp4.setEditable(false);
 
         jLabel5.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         jLabel5.setForeground(new java.awt.Color(0, 102, 51));
@@ -235,10 +256,6 @@ public class Principal extends javax.swing.JFrame {
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                                 .addComponent(resp3, javax.swing.GroupLayout.PREFERRED_SIZE, 561, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addGroup(panelConfigLayout.createSequentialGroup()
-                                .addComponent(validateBtn2)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(resp2, javax.swing.GroupLayout.PREFERRED_SIZE, 561, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(panelConfigLayout.createSequentialGroup()
                                 .addComponent(validateBtn4)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                                 .addGroup(panelConfigLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -248,9 +265,16 @@ public class Principal extends javax.swing.JFrame {
                                         .addComponent(guardarPreguntaRespConf, javax.swing.GroupLayout.PREFERRED_SIZE, 113, javax.swing.GroupLayout.PREFERRED_SIZE))
                                     .addComponent(resp4, javax.swing.GroupLayout.PREFERRED_SIZE, 561, javax.swing.GroupLayout.PREFERRED_SIZE)))
                             .addGroup(panelConfigLayout.createSequentialGroup()
-                                .addComponent(validateBtn1)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(resp1, javax.swing.GroupLayout.PREFERRED_SIZE, 561, javax.swing.GroupLayout.PREFERRED_SIZE)))))
+                                .addGroup(panelConfigLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelConfigLayout.createSequentialGroup()
+                                        .addComponent(validateBtn2)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED))
+                                    .addGroup(panelConfigLayout.createSequentialGroup()
+                                        .addComponent(validateBtn1)
+                                        .addGap(12, 12, 12)))
+                                .addGroup(panelConfigLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                    .addComponent(resp1)
+                                    .addComponent(resp2, javax.swing.GroupLayout.PREFERRED_SIZE, 561, javax.swing.GroupLayout.PREFERRED_SIZE))))))
                 .addContainerGap())
         );
         panelConfigLayout.setVerticalGroup(
@@ -267,8 +291,8 @@ public class Principal extends javax.swing.JFrame {
                 .addComponent(jLabel4)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 19, Short.MAX_VALUE)
                 .addGroup(panelConfigLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(resp1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(validateBtn1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(resp1, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(validateBtn1, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(panelConfigLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addComponent(resp2, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -386,17 +410,20 @@ public class Principal extends javax.swing.JFrame {
         panelPlayLayout.setHorizontalGroup(
             panelPlayLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(panelPlayLayout.createSequentialGroup()
-                .addGap(11, 11, 11)
-                .addComponent(jLabel7, javax.swing.GroupLayout.PREFERRED_SIZE, 608, javax.swing.GroupLayout.PREFERRED_SIZE))
-            .addGroup(panelPlayLayout.createSequentialGroup()
-                .addGap(111, 111, 111)
-                .addComponent(btnSencillo, javax.swing.GroupLayout.PREFERRED_SIZE, 380, javax.swing.GroupLayout.PREFERRED_SIZE))
-            .addGroup(panelPlayLayout.createSequentialGroup()
-                .addGap(111, 111, 111)
-                .addComponent(btnNormal, javax.swing.GroupLayout.PREFERRED_SIZE, 380, javax.swing.GroupLayout.PREFERRED_SIZE))
-            .addGroup(panelPlayLayout.createSequentialGroup()
-                .addGap(111, 111, 111)
-                .addComponent(btnDificil, javax.swing.GroupLayout.PREFERRED_SIZE, 380, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGroup(panelPlayLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(panelPlayLayout.createSequentialGroup()
+                        .addGap(11, 11, 11)
+                        .addComponent(jLabel7, javax.swing.GroupLayout.PREFERRED_SIZE, 608, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(panelPlayLayout.createSequentialGroup()
+                        .addGap(111, 111, 111)
+                        .addComponent(btnSencillo, javax.swing.GroupLayout.PREFERRED_SIZE, 380, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(panelPlayLayout.createSequentialGroup()
+                        .addGap(111, 111, 111)
+                        .addComponent(btnNormal, javax.swing.GroupLayout.PREFERRED_SIZE, 380, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(panelPlayLayout.createSequentialGroup()
+                        .addGap(111, 111, 111)
+                        .addComponent(btnDificil, javax.swing.GroupLayout.PREFERRED_SIZE, 380, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         panelPlayLayout.setVerticalGroup(
             panelPlayLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -539,6 +566,70 @@ public class Principal extends javax.swing.JFrame {
 
         panelContenedor.add(panelQuiz, new org.netbeans.lib.awtextra.AbsoluteConstraints(220, 80, 630, 400));
 
+        panelCalificacion.setBackground(new java.awt.Color(255, 255, 255));
+        panelCalificacion.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(239, 250, 244), 5, true));
+        panelCalificacion.setForeground(new java.awt.Color(243, 244, 243));
+
+        btnSalirdeQuiz.setBackground(new java.awt.Color(0, 102, 51));
+        btnSalirdeQuiz.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
+        btnSalirdeQuiz.setForeground(new java.awt.Color(255, 255, 255));
+        btnSalirdeQuiz.setText("Salir");
+        btnSalirdeQuiz.setBorder(null);
+        btnSalirdeQuiz.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnSalirdeQuizActionPerformed(evt);
+            }
+        });
+
+        jLabel10.setBackground(new java.awt.Color(102, 0, 204));
+        jLabel10.setFont(new java.awt.Font("Segoe UI", 0, 48)); // NOI18N
+        jLabel10.setForeground(new java.awt.Color(0, 102, 102));
+        jLabel10.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel10.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/gorro.png"))); // NOI18N
+
+        jLabel12.setBackground(new java.awt.Color(102, 0, 204));
+        jLabel12.setFont(new java.awt.Font("Segoe UI", 0, 36)); // NOI18N
+        jLabel12.setForeground(new java.awt.Color(0, 102, 102));
+        jLabel12.setText("Su calificación es:");
+
+        calificacion.setBackground(new java.awt.Color(102, 0, 204));
+        calificacion.setFont(new java.awt.Font("Segoe UI", 0, 48)); // NOI18N
+        calificacion.setForeground(new java.awt.Color(0, 102, 102));
+        calificacion.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+
+        javax.swing.GroupLayout panelCalificacionLayout = new javax.swing.GroupLayout(panelCalificacion);
+        panelCalificacion.setLayout(panelCalificacionLayout);
+        panelCalificacionLayout.setHorizontalGroup(
+            panelCalificacionLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(panelCalificacionLayout.createSequentialGroup()
+                .addGroup(panelCalificacionLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(panelCalificacionLayout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(jLabel12, javax.swing.GroupLayout.PREFERRED_SIZE, 608, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(panelCalificacionLayout.createSequentialGroup()
+                        .addGap(217, 217, 217)
+                        .addGroup(panelCalificacionLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(btnSalirdeQuiz, javax.swing.GroupLayout.PREFERRED_SIZE, 173, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(calificacion, javax.swing.GroupLayout.PREFERRED_SIZE, 173, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel10, javax.swing.GroupLayout.PREFERRED_SIZE, 173, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                .addContainerGap(60, Short.MAX_VALUE))
+        );
+        panelCalificacionLayout.setVerticalGroup(
+            panelCalificacionLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(panelCalificacionLayout.createSequentialGroup()
+                .addGap(0, 0, 0)
+                .addComponent(jLabel12, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(52, 52, 52)
+                .addComponent(jLabel10, javax.swing.GroupLayout.PREFERRED_SIZE, 58, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(calificacion, javax.swing.GroupLayout.PREFERRED_SIZE, 58, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 62, Short.MAX_VALUE)
+                .addComponent(btnSalirdeQuiz, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(74, 74, 74))
+        );
+
+        panelContenedor.add(panelCalificacion, new org.netbeans.lib.awtextra.AbsoluteConstraints(220, 80, 630, 400));
+
         background.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/menu.png"))); // NOI18N
         panelContenedor.add(background, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 890, 500));
 
@@ -561,6 +652,7 @@ public class Principal extends javax.swing.JFrame {
         this.panelHistorico.setVisible(false);
         this.panelConfig.setVisible(false);
         this.panelPlay.setVisible(false);
+        this.panelCalificacion.setVisible(false);
     }//GEN-LAST:event_inicioActionPerformed
 
     private void historicoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_historicoActionPerformed
@@ -569,6 +661,7 @@ public class Principal extends javax.swing.JFrame {
         this.panelHistorico.setVisible(true);
         this.panelConfig.setVisible(false);
         this.panelPlay.setVisible(false);
+        this.panelCalificacion.setVisible(false);
     }//GEN-LAST:event_historicoActionPerformed
 
     private void jugarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jugarActionPerformed
@@ -577,6 +670,13 @@ public class Principal extends javax.swing.JFrame {
         this.panelHistorico.setVisible(false);
         this.panelConfig.setVisible(false);
         this.panelPlay.setVisible(true);
+        this.panelCalificacion.setVisible(false);
+
+        this.recorridoPlay = 0;
+        this.listaPreguntasPlay.clear();
+        this.listaRespuestaPlay.clear();
+
+
     }//GEN-LAST:event_jugarActionPerformed
 
     private void ConfiguracionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ConfiguracionActionPerformed
@@ -585,6 +685,7 @@ public class Principal extends javax.swing.JFrame {
         this.panelHistorico.setVisible(false);
         this.panelConfig.setVisible(true);
         this.panelPlay.setVisible(false);
+        this.panelCalificacion.setVisible(false);
 
 
     }//GEN-LAST:event_ConfiguracionActionPerformed
@@ -605,7 +706,7 @@ public class Principal extends javax.swing.JFrame {
 
         this.panelPlay.setVisible(false);
         this.panelQuiz.setVisible(true);
-
+        this.diseableMenuWhilePlaying();
         presentarPreguntaPlay(recorridoPlay);
     }//GEN-LAST:event_btnSencilloActionPerformed
 
@@ -615,7 +716,7 @@ public class Principal extends javax.swing.JFrame {
 
         this.panelPlay.setVisible(false);
         this.panelQuiz.setVisible(true);
-
+        this.diseableMenuWhilePlaying();
         presentarPreguntaPlay(recorridoPlay);
     }//GEN-LAST:event_btnNormalActionPerformed
 
@@ -625,7 +726,7 @@ public class Principal extends javax.swing.JFrame {
 
         this.panelPlay.setVisible(false);
         this.panelQuiz.setVisible(true);
-
+        this.diseableMenuWhilePlaying();
         presentarPreguntaPlay(recorridoPlay);
     }//GEN-LAST:event_btnDificilActionPerformed
 
@@ -718,8 +819,66 @@ public class Principal extends javax.swing.JFrame {
         // TODO add your handling code here:
         almacenarOpcionEscogidaJuego();
 
-        System.out.println(this.listaRespuestaPlay);
+        int totalPreguntas = this.listaPreguntasPlay.size();
+
+        for (RespuestaSeleccionUsuario seleccion : listaRespuestaPlay) {
+            tb_quiz pregunta = this.listaPreguntasPlay.get(seleccion.getIndexPregunta());
+            tb_respuestas respuesta = pregunta.getRespuestas().get(seleccion.getIndexRespuesta());
+            if (respuesta.isValidate()) {
+                this.totalPreguntasCorrectas++;
+            }
+        }
+
+        this.panelCalificacion.setVisible(true);
+        this.panelQuiz.setVisible(false);
+        this.panelConfig.setVisible(false);
+        this.panelPlay.setVisible(false);
+        this.panelHistorico.setVisible(false);
+        this.panelInicio.setVisible(false);
+
+        calificacion.setText(this.totalPreguntasCorrectas + "/" + totalPreguntas);
+
+        System.out.println("Total de preguntas " + totalPreguntas);
+        System.out.println("Total de preguntas acertadas " + this.totalPreguntasCorrectas);
     }//GEN-LAST:event_btnFinalizarPlayActionPerformed
+
+    private void btnSalirdeQuizActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSalirdeQuizActionPerformed
+        // clic al salir del juego
+        Object[] options = {"OK"};
+        int result = JOptionPane.showOptionDialog(null, "Su calificación ha sido enviada al docente", "Evaluación finalizada", JOptionPane.DEFAULT_OPTION, JOptionPane.INFORMATION_MESSAGE, null, options, options[0]);
+        if (result == JOptionPane.OK_OPTION) {
+            this.recorridoPlay = 0;
+            this.listaPreguntasPlay.clear();
+            this.listaRespuestaPlay.clear();
+
+            this.panelCalificacion.setVisible(false);
+            this.panelQuiz.setVisible(false);
+            this.panelConfig.setVisible(false);
+            this.panelPlay.setVisible(false);
+            this.panelHistorico.setVisible(false);
+            this.panelInicio.setVisible(true);
+
+            this.diseableMenuWhilePlaying();
+
+            String queryHistorico = "insert into tb_historico(fk_id_registros, nombreAlumno, ApellidoAlumno ,puntaje) values (?,?,?,?) ";
+
+            try (Connection conn = conexionDB.getDbConnection(); PreparedStatement ps = conn.prepareStatement(queryHistorico)) {
+
+                ps.setInt(1, this.idLogin);
+                ps.setString(2, this.nombreAlumno); //nombreAlumno
+                ps.setString(3, this.apellidoAlumno); //apellidoAlumno
+                ps.setInt(4, this.totalPreguntasCorrectas);
+
+                ps.execute();
+
+            } catch (Exception ex) {
+                JOptionPane.showMessageDialog(null, "Error al insertar data en el histórico: " + ex);
+            }
+
+        }
+
+
+    }//GEN-LAST:event_btnSalirdeQuizActionPerformed
 
     public void almacenarOpcionEscogidaJuego() {
         int opcionSeleccionada = -1;
@@ -749,6 +908,18 @@ public class Principal extends javax.swing.JFrame {
         }
     }
 
+    public void obtenerNombreAlumnoLogin(String nombre) {
+        this.nombreAlumno = nombre;
+    }
+
+    public void obtenerApellidoAlumnoLogin(String apellido) {
+        this.apellidoAlumno = apellido;
+    }
+
+    public void obtenerIdLogin(int idLogin) {
+        this.idLogin = idLogin;
+    }
+
     void presentarPreguntaPlay(int recorrido) {
         tb_quiz quiz = listaPreguntasPlay.get(recorrido);
         this.playPregunta.setText(quiz.getPregunta());
@@ -770,6 +941,21 @@ public class Principal extends javax.swing.JFrame {
             if (i == 3) {
                 this.playRespuesta4.setText(listResp.get(3).getRespuestas());
             }
+        }
+    }
+
+    public void diseableMenuWhilePlaying() {
+
+        if (this.panelQuiz.isVisible()) {
+            this.inicio.setEnabled(false);
+            this.Configuracion.setEnabled(false);
+            this.jugar.setEnabled(false);
+            this.historico.setEnabled(false);
+        } else {
+            this.inicio.setEnabled(true);
+            this.Configuracion.setEnabled(true);
+            this.jugar.setEnabled(true);
+            this.historico.setEnabled(true);
         }
     }
 
@@ -863,13 +1049,17 @@ public class Principal extends javax.swing.JFrame {
     private javax.swing.ButtonGroup btnGrupoPreguntas;
     private javax.swing.JButton btnNormal;
     private javax.swing.JButton btnPlayNextQuestion;
+    private javax.swing.JButton btnSalirdeQuiz;
     private javax.swing.JButton btnSencillo;
+    private javax.swing.JLabel calificacion;
     private javax.swing.JButton cancelarPreguntaRespConf;
     private javax.swing.JButton guardarPreguntaRespConf;
     private javax.swing.JButton historico;
     private javax.swing.JButton inicio;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
+    private javax.swing.JLabel jLabel12;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
@@ -879,6 +1069,7 @@ public class Principal extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel9;
     private javax.swing.JButton jugar;
     private javax.swing.JLabel labelNumPregunta;
+    private javax.swing.JPanel panelCalificacion;
     private javax.swing.JPanel panelConfig;
     private javax.swing.JPanel panelContenedor;
     private javax.swing.JPanel panelHistorico;

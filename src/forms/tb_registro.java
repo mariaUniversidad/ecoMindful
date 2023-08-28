@@ -1,7 +1,15 @@
 package forms;
 
 public class tb_registro {
+    public int getFk_id_persona() {
+        return fk_id_persona;
+    }
+
 //Atributos heredables
+    public void setFk_id_persona(int fk_id_persona) {
+        this.fk_id_persona = fk_id_persona;
+    }
+    private int id_registros;
     private String nombres;
     private String apellido;
     private String usuario;
@@ -58,5 +66,14 @@ public class tb_registro {
     public void setFk_id_Persona(int fk_id_persona) {
         this.fk_id_persona = fk_id_persona;
     }
+     public int getId_registros() {
+        return id_registros;
+    }
+
+    public void setId_registros(int id_registros) {
+        this.id_registros = id_registros;
+    }
+
+    
 
 }
