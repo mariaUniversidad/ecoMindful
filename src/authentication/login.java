@@ -134,7 +134,7 @@ public class login extends javax.swing.JFrame {
         Ingresar.setForeground(new java.awt.Color(0, 51, 51));
         Ingresar.setText("INGRESAR");
         Ingresar.setBorder(null);
-        Ingresar.setCursor(new java.awt.Cursor(java.awt.Cursor.CROSSHAIR_CURSOR));
+        Ingresar.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
         Ingresar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 IngresarActionPerformed(evt);

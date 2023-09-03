@@ -1,11 +1,9 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
- */
 package menuPrincipal;
 
 import conexionDB.conexionMysql;
 import forms.RespuestaSeleccionUsuario;
+import forms.tbDatoCurioso;
+import forms.tb_historico;
 import forms.tb_quiz;
 import forms.tb_respuestas;
 import java.util.ArrayList;
@@ -13,15 +11,17 @@ import java.util.List;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.time.LocalDate;
 import java.util.Collections;
 import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
 
 /**
  *
  * @author Maluli
  */
 public class Principal extends javax.swing.JFrame {
-
+    
     conexionMysql conexionDB = null;
     int recorridoPlay = 0;
     List<tb_quiz> listaPreguntasPlay = new ArrayList<>();
@@ -37,15 +37,18 @@ public class Principal extends javax.swing.JFrame {
     public Principal() {
         //inicio de componentes
         initComponents();
-
+        
         conexionDB = new conexionMysql();
+        this.consultaTablaHistorico();
         this.panelInicio.setVisible(true);
         this.panelHistorico.setVisible(false);
         this.panelConfig.setVisible(false);
         this.panelPlay.setVisible(false);
         this.panelQuiz.setVisible(false);
         this.panelCalificacion.setVisible(false);
-
+        this.panelEducacion.setVisible(false);
+        this.panelDatoCurioso.setVisible(false);
+        this.getPizarra1();
     }
 
     /**
@@ -64,6 +67,15 @@ public class Principal extends javax.swing.JFrame {
         Configuracion = new javax.swing.JButton();
         inicio = new javax.swing.JButton();
         historico = new javax.swing.JButton();
+        datoCurioso = new javax.swing.JButton();
+        panelDatoCurioso = new javax.swing.JPanel();
+        actualizarTema1 = new javax.swing.JButton();
+        jLabel13 = new javax.swing.JLabel();
+        actualizarTema2 = new javax.swing.JButton();
+        jScrollPane4 = new javax.swing.JScrollPane();
+        temaEstudio1 = new javax.swing.JTextArea();
+        jScrollPane5 = new javax.swing.JScrollPane();
+        temaEstudio2 = new javax.swing.JTextArea();
         panelConfig = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
@@ -82,19 +94,25 @@ public class Principal extends javax.swing.JFrame {
         validateBtn1 = new javax.swing.JRadioButton();
         panelInicio = new javax.swing.JPanel();
         jLabel3 = new javax.swing.JLabel();
+        jLabel8 = new javax.swing.JLabel();
+        jButton1 = new javax.swing.JButton();
+        jScrollPane2 = new javax.swing.JScrollPane();
+        pizarra1 = new javax.swing.JTextArea();
+        panelEducacion = new javax.swing.JPanel();
+        jButton2 = new javax.swing.JButton();
+        jLabel15 = new javax.swing.JLabel();
+        jScrollPane3 = new javax.swing.JScrollPane();
+        pizarra2 = new javax.swing.JTextArea();
         panelHistorico = new javax.swing.JPanel();
         jLabel6 = new javax.swing.JLabel();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        tablaHistorico = new javax.swing.JTable();
         panelPlay = new javax.swing.JPanel();
         btnSencillo = new javax.swing.JButton();
         btnDificil = new javax.swing.JButton();
         btnNormal = new javax.swing.JButton();
         jLabel7 = new javax.swing.JLabel();
         panelQuiz = new javax.swing.JPanel();
-        playRespuesta2 = new javax.swing.JTextField();
-        playPregunta = new javax.swing.JTextField();
-        playRespuesta1 = new javax.swing.JTextField();
-        playRespuesta3 = new javax.swing.JTextField();
-        playRespuesta4 = new javax.swing.JTextField();
         jLabel9 = new javax.swing.JLabel();
         labelNumPregunta = new javax.swing.JLabel();
         jLabel11 = new javax.swing.JLabel();
@@ -104,6 +122,16 @@ public class Principal extends javax.swing.JFrame {
         rbPlayOpt4 = new javax.swing.JRadioButton();
         btnPlayNextQuestion = new javax.swing.JButton();
         btnFinalizarPlay = new javax.swing.JButton();
+        jScrollPane6 = new javax.swing.JScrollPane();
+        playPregunta = new javax.swing.JTextArea();
+        jScrollPane7 = new javax.swing.JScrollPane();
+        playRespuesta2 = new javax.swing.JTextArea();
+        jScrollPane9 = new javax.swing.JScrollPane();
+        playRespuesta3 = new javax.swing.JTextArea();
+        jScrollPane10 = new javax.swing.JScrollPane();
+        playRespuesta4 = new javax.swing.JTextArea();
+        jScrollPane11 = new javax.swing.JScrollPane();
+        playRespuesta1 = new javax.swing.JTextArea();
         panelCalificacion = new javax.swing.JPanel();
         btnSalirdeQuiz = new javax.swing.JButton();
         jLabel10 = new javax.swing.JLabel();
@@ -127,7 +155,7 @@ public class Principal extends javax.swing.JFrame {
                 jugarActionPerformed(evt);
             }
         });
-        panelContenedor.add(jugar, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 170, 160, 40));
+        panelContenedor.add(jugar, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 120, 160, 40));
 
         Configuracion.setBackground(new java.awt.Color(0, 102, 73));
         Configuracion.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
@@ -140,7 +168,7 @@ public class Principal extends javax.swing.JFrame {
                 ConfiguracionActionPerformed(evt);
             }
         });
-        panelContenedor.add(Configuracion, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 220, 160, 40));
+        panelContenedor.add(Configuracion, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 270, 160, 40));
 
         inicio.setBackground(new java.awt.Color(0, 102, 73));
         inicio.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
@@ -166,10 +194,102 @@ public class Principal extends javax.swing.JFrame {
                 historicoActionPerformed(evt);
             }
         });
-        panelContenedor.add(historico, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 120, 160, 40));
+        panelContenedor.add(historico, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 170, 160, 40));
+
+        datoCurioso.setBackground(new java.awt.Color(0, 102, 73));
+        datoCurioso.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        datoCurioso.setForeground(new java.awt.Color(255, 255, 255));
+        datoCurioso.setText("Tema de estudio");
+        datoCurioso.setBorder(null);
+        datoCurioso.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        datoCurioso.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                datoCuriosoActionPerformed(evt);
+            }
+        });
+        panelContenedor.add(datoCurioso, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 220, 160, 40));
+
+        panelDatoCurioso.setBackground(new java.awt.Color(255, 255, 255));
+        panelDatoCurioso.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(161, 211, 161), 5, true));
+        panelDatoCurioso.setForeground(new java.awt.Color(243, 244, 243));
+
+        actualizarTema1.setBackground(new java.awt.Color(0, 102, 51));
+        actualizarTema1.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        actualizarTema1.setForeground(new java.awt.Color(255, 255, 255));
+        actualizarTema1.setText("Actualizar primer tema");
+        actualizarTema1.setBorder(null);
+        actualizarTema1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                actualizarTema1ActionPerformed(evt);
+            }
+        });
+
+        jLabel13.setBackground(new java.awt.Color(102, 0, 204));
+        jLabel13.setFont(new java.awt.Font("Segoe UI", 0, 24)); // NOI18N
+        jLabel13.setForeground(new java.awt.Color(0, 102, 102));
+        jLabel13.setText("Temas de estudio para los estudiantes");
+
+        actualizarTema2.setBackground(new java.awt.Color(0, 102, 51));
+        actualizarTema2.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        actualizarTema2.setForeground(new java.awt.Color(255, 255, 255));
+        actualizarTema2.setText("Actualizar segundo tema");
+        actualizarTema2.setBorder(null);
+        actualizarTema2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                actualizarTema2ActionPerformed(evt);
+            }
+        });
+
+        temaEstudio1.setColumns(20);
+        temaEstudio1.setLineWrap(true);
+        temaEstudio1.setRows(12);
+        temaEstudio1.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 102, 51), 2));
+        jScrollPane4.setViewportView(temaEstudio1);
+
+        temaEstudio2.setColumns(20);
+        temaEstudio2.setLineWrap(true);
+        temaEstudio2.setRows(12);
+        temaEstudio2.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 102, 51), 2));
+        jScrollPane5.setViewportView(temaEstudio2);
+
+        javax.swing.GroupLayout panelDatoCuriosoLayout = new javax.swing.GroupLayout(panelDatoCurioso);
+        panelDatoCurioso.setLayout(panelDatoCuriosoLayout);
+        panelDatoCuriosoLayout.setHorizontalGroup(
+            panelDatoCuriosoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(panelDatoCuriosoLayout.createSequentialGroup()
+                .addGap(23, 23, 23)
+                .addGroup(panelDatoCuriosoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(panelDatoCuriosoLayout.createSequentialGroup()
+                        .addComponent(actualizarTema1, javax.swing.GroupLayout.PREFERRED_SIZE, 288, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(actualizarTema2, javax.swing.GroupLayout.DEFAULT_SIZE, 275, Short.MAX_VALUE))
+                    .addComponent(jLabel13, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelDatoCuriosoLayout.createSequentialGroup()
+                        .addComponent(jScrollPane4)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jScrollPane5)))
+                .addGap(28, 28, 28))
+        );
+        panelDatoCuriosoLayout.setVerticalGroup(
+            panelDatoCuriosoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelDatoCuriosoLayout.createSequentialGroup()
+                .addGap(18, 18, 18)
+                .addComponent(jLabel13, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addGroup(panelDatoCuriosoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 241, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jScrollPane5, javax.swing.GroupLayout.PREFERRED_SIZE, 241, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
+                .addGroup(panelDatoCuriosoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(actualizarTema1, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(actualizarTema2, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(19, Short.MAX_VALUE))
+        );
+
+        panelContenedor.add(panelDatoCurioso, new org.netbeans.lib.awtextra.AbsoluteConstraints(220, 80, 630, 400));
 
         panelConfig.setBackground(new java.awt.Color(255, 255, 255));
-        panelConfig.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(239, 250, 244), 5, true));
+        panelConfig.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(161, 211, 161), 5, true));
         panelConfig.setForeground(new java.awt.Color(243, 244, 243));
 
         jLabel1.setBackground(new java.awt.Color(205, 221, 213));
@@ -315,31 +435,136 @@ public class Principal extends javax.swing.JFrame {
         panelContenedor.add(panelConfig, new org.netbeans.lib.awtextra.AbsoluteConstraints(220, 80, 630, 400));
 
         panelInicio.setBackground(new java.awt.Color(255, 255, 255));
-        panelInicio.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(239, 250, 244), 5, true));
+        panelInicio.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(161, 211, 161), 5, true));
         panelInicio.setForeground(new java.awt.Color(243, 244, 243));
 
         jLabel3.setBackground(new java.awt.Color(102, 0, 204));
-        jLabel3.setFont(new java.awt.Font("Segoe UI", 0, 24)); // NOI18N
+        jLabel3.setFont(new java.awt.Font("Segoe UI", 0, 36)); // NOI18N
         jLabel3.setForeground(new java.awt.Color(0, 102, 102));
         jLabel3.setText("Ecomindful te enseña...");
+
+        jLabel8.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/profe.png"))); // NOI18N
+
+        jButton1.setBackground(new java.awt.Color(0, 102, 51));
+        jButton1.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        jButton1.setForeground(new java.awt.Color(255, 255, 255));
+        jButton1.setText("Leer más");
+        jButton1.setBorder(null);
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
+
+        pizarra1.setEditable(false);
+        pizarra1.setBackground(new java.awt.Color(210, 236, 231));
+        pizarra1.setColumns(20);
+        pizarra1.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        pizarra1.setForeground(new java.awt.Color(0, 102, 51));
+        pizarra1.setLineWrap(true);
+        pizarra1.setRows(12);
+        pizarra1.setWrapStyleWord(true);
+        pizarra1.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 102, 51), 4));
+        pizarra1.setSelectionColor(new java.awt.Color(0, 102, 51));
+        jScrollPane2.setViewportView(pizarra1);
 
         javax.swing.GroupLayout panelInicioLayout = new javax.swing.GroupLayout(panelInicio);
         panelInicio.setLayout(panelInicioLayout);
         panelInicioLayout.setHorizontalGroup(
             panelInicioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jLabel3, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addGroup(panelInicioLayout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(panelInicioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(panelInicioLayout.createSequentialGroup()
+                        .addGap(15, 15, 15)
+                        .addGroup(panelInicioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(jButton1, javax.swing.GroupLayout.DEFAULT_SIZE, 335, Short.MAX_VALUE)
+                            .addComponent(jScrollPane2))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jLabel8)
+                        .addGap(29, 29, 29))
+                    .addGroup(panelInicioLayout.createSequentialGroup()
+                        .addComponent(jLabel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addContainerGap())))
         );
         panelInicioLayout.setVerticalGroup(
             panelInicioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(panelInicioLayout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(348, Short.MAX_VALUE))
+                .addGroup(panelInicioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(panelInicioLayout.createSequentialGroup()
+                        .addGap(20, 20, 20)
+                        .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 261, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(panelInicioLayout.createSequentialGroup()
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jLabel8, javax.swing.GroupLayout.PREFERRED_SIZE, 386, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addGap(0, 0, 0))
         );
 
         panelContenedor.add(panelInicio, new org.netbeans.lib.awtextra.AbsoluteConstraints(220, 80, 620, 400));
 
+        panelEducacion.setBackground(new java.awt.Color(255, 255, 255));
+        panelEducacion.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(161, 211, 161), 5, true));
+        panelEducacion.setForeground(new java.awt.Color(243, 244, 243));
+
+        jButton2.setBackground(new java.awt.Color(0, 102, 51));
+        jButton2.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        jButton2.setForeground(new java.awt.Color(255, 255, 255));
+        jButton2.setText("Regresar");
+        jButton2.setBorder(null);
+        jButton2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton2ActionPerformed(evt);
+            }
+        });
+
+        jLabel15.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/profesora.png"))); // NOI18N
+
+        pizarra2.setEditable(false);
+        pizarra2.setBackground(new java.awt.Color(210, 236, 231));
+        pizarra2.setColumns(20);
+        pizarra2.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        pizarra2.setForeground(new java.awt.Color(0, 102, 51));
+        pizarra2.setLineWrap(true);
+        pizarra2.setRows(12);
+        pizarra2.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 102, 51), 4));
+        pizarra2.setSelectionColor(new java.awt.Color(0, 102, 51));
+        jScrollPane3.setViewportView(pizarra2);
+
+        javax.swing.GroupLayout panelEducacionLayout = new javax.swing.GroupLayout(panelEducacion);
+        panelEducacion.setLayout(panelEducacionLayout);
+        panelEducacionLayout.setHorizontalGroup(
+            panelEducacionLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelEducacionLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jLabel15, javax.swing.GroupLayout.PREFERRED_SIZE, 221, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(panelEducacionLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(jButton2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 339, Short.MAX_VALUE))
+                .addContainerGap(38, Short.MAX_VALUE))
+        );
+        panelEducacionLayout.setVerticalGroup(
+            panelEducacionLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelEducacionLayout.createSequentialGroup()
+                .addGap(0, 0, Short.MAX_VALUE)
+                .addGroup(panelEducacionLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addGroup(panelEducacionLayout.createSequentialGroup()
+                        .addGap(10, 10, 10)
+                        .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 295, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(jLabel15, javax.swing.GroupLayout.PREFERRED_SIZE, 398, javax.swing.GroupLayout.PREFERRED_SIZE)))
+        );
+
+        panelContenedor.add(panelEducacion, new org.netbeans.lib.awtextra.AbsoluteConstraints(220, 80, 620, 400));
+
         panelHistorico.setBackground(new java.awt.Color(255, 255, 255));
-        panelHistorico.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(239, 250, 244), 5, true));
+        panelHistorico.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(161, 211, 161), 5, true));
         panelHistorico.setForeground(new java.awt.Color(243, 244, 243));
 
         jLabel6.setBackground(new java.awt.Color(102, 0, 204));
@@ -347,23 +572,44 @@ public class Principal extends javax.swing.JFrame {
         jLabel6.setForeground(new java.awt.Color(0, 102, 102));
         jLabel6.setText("Histórico de puntajes");
 
+        tablaHistorico.setBackground(new java.awt.Color(0, 102, 51));
+        tablaHistorico.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        tablaHistorico.setForeground(new java.awt.Color(255, 255, 255));
+        tablaHistorico.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+
+            },
+            new String [] {
+
+            }
+        ));
+        tablaHistorico.setToolTipText("");
+        tablaHistorico.setEnabled(false);
+        jScrollPane1.setViewportView(tablaHistorico);
+
         javax.swing.GroupLayout panelHistoricoLayout = new javax.swing.GroupLayout(panelHistorico);
         panelHistorico.setLayout(panelHistoricoLayout);
         panelHistoricoLayout.setHorizontalGroup(
             panelHistoricoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(jLabel6, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 610, Short.MAX_VALUE)
+            .addGroup(panelHistoricoLayout.createSequentialGroup()
+                .addGap(33, 33, 33)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 533, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         panelHistoricoLayout.setVerticalGroup(
             panelHistoricoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(panelHistoricoLayout.createSequentialGroup()
                 .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(348, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 333, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         panelContenedor.add(panelHistorico, new org.netbeans.lib.awtextra.AbsoluteConstraints(220, 80, 620, 400));
 
         panelPlay.setBackground(new java.awt.Color(255, 255, 255));
-        panelPlay.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(239, 250, 244), 5, true));
+        panelPlay.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(161, 211, 161), 5, true));
         panelPlay.setForeground(new java.awt.Color(243, 244, 243));
 
         btnSencillo.setBackground(new java.awt.Color(0, 102, 51));
@@ -441,18 +687,8 @@ public class Principal extends javax.swing.JFrame {
         panelContenedor.add(panelPlay, new org.netbeans.lib.awtextra.AbsoluteConstraints(220, 80, 620, 400));
 
         panelQuiz.setBackground(new java.awt.Color(255, 255, 255));
-        panelQuiz.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(239, 250, 244), 5, true));
+        panelQuiz.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(161, 211, 161), 5, true));
         panelQuiz.setForeground(new java.awt.Color(243, 244, 243));
-
-        playRespuesta2.setEditable(false);
-
-        playPregunta.setEditable(false);
-
-        playRespuesta1.setEditable(false);
-
-        playRespuesta3.setEditable(false);
-
-        playRespuesta4.setEditable(false);
 
         jLabel9.setBackground(new java.awt.Color(102, 0, 204));
         jLabel9.setFont(new java.awt.Font("Segoe UI", 0, 24)); // NOI18N
@@ -460,32 +696,104 @@ public class Principal extends javax.swing.JFrame {
         jLabel9.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/boton-de-play.png"))); // NOI18N
         jLabel9.setText("Responda las siguientes preguntas:");
 
+        labelNumPregunta.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
+        labelNumPregunta.setForeground(new java.awt.Color(0, 102, 51));
         labelNumPregunta.setText("Pregunta #1");
 
         jLabel11.setText("Seleccione la respuesta:");
 
+        rbPlayOpt1.setBackground(new java.awt.Color(255, 255, 255));
         btnGrupoPreguntas.add(rbPlayOpt1);
 
+        rbPlayOpt2.setBackground(new java.awt.Color(255, 255, 255));
         btnGrupoPreguntas.add(rbPlayOpt2);
+        rbPlayOpt2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                rbPlayOpt2ActionPerformed(evt);
+            }
+        });
 
+        rbPlayOpt3.setBackground(new java.awt.Color(255, 255, 255));
         btnGrupoPreguntas.add(rbPlayOpt3);
+        rbPlayOpt3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                rbPlayOpt3ActionPerformed(evt);
+            }
+        });
 
+        rbPlayOpt4.setBackground(new java.awt.Color(255, 255, 255));
         btnGrupoPreguntas.add(rbPlayOpt4);
+        rbPlayOpt4.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                rbPlayOpt4ActionPerformed(evt);
+            }
+        });
 
+        btnPlayNextQuestion.setBackground(new java.awt.Color(0, 102, 51));
+        btnPlayNextQuestion.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        btnPlayNextQuestion.setForeground(new java.awt.Color(255, 255, 255));
         btnPlayNextQuestion.setText("Siguiente");
+        btnPlayNextQuestion.setBorder(null);
         btnPlayNextQuestion.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnPlayNextQuestionActionPerformed(evt);
             }
         });
 
+        btnFinalizarPlay.setBackground(new java.awt.Color(102, 102, 102));
+        btnFinalizarPlay.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        btnFinalizarPlay.setForeground(new java.awt.Color(255, 255, 255));
         btnFinalizarPlay.setText("Finalizar");
+        btnFinalizarPlay.setBorder(null);
         btnFinalizarPlay.setEnabled(false);
         btnFinalizarPlay.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnFinalizarPlayActionPerformed(evt);
             }
         });
+
+        playPregunta.setEditable(false);
+        playPregunta.setColumns(20);
+        playPregunta.setLineWrap(true);
+        playPregunta.setRows(2);
+        playPregunta.setWrapStyleWord(true);
+        jScrollPane6.setViewportView(playPregunta);
+
+        playRespuesta2.setEditable(false);
+        playRespuesta2.setColumns(20);
+        playRespuesta2.setFont(new java.awt.Font("Segoe UI", 0, 10)); // NOI18N
+        playRespuesta2.setLineWrap(true);
+        playRespuesta2.setRows(1);
+        playRespuesta2.setTabSize(2);
+        playRespuesta2.setWrapStyleWord(true);
+        jScrollPane7.setViewportView(playRespuesta2);
+
+        playRespuesta3.setEditable(false);
+        playRespuesta3.setColumns(20);
+        playRespuesta3.setFont(new java.awt.Font("Segoe UI", 0, 10)); // NOI18N
+        playRespuesta3.setLineWrap(true);
+        playRespuesta3.setRows(1);
+        playRespuesta3.setTabSize(2);
+        playRespuesta3.setWrapStyleWord(true);
+        jScrollPane9.setViewportView(playRespuesta3);
+
+        playRespuesta4.setEditable(false);
+        playRespuesta4.setColumns(20);
+        playRespuesta4.setFont(new java.awt.Font("Segoe UI", 0, 10)); // NOI18N
+        playRespuesta4.setLineWrap(true);
+        playRespuesta4.setRows(1);
+        playRespuesta4.setTabSize(2);
+        playRespuesta4.setWrapStyleWord(true);
+        jScrollPane10.setViewportView(playRespuesta4);
+
+        playRespuesta1.setEditable(false);
+        playRespuesta1.setColumns(20);
+        playRespuesta1.setFont(new java.awt.Font("Segoe UI", 0, 10)); // NOI18N
+        playRespuesta1.setLineWrap(true);
+        playRespuesta1.setRows(1);
+        playRespuesta1.setTabSize(2);
+        playRespuesta1.setWrapStyleWord(true);
+        jScrollPane11.setViewportView(playRespuesta1);
 
         javax.swing.GroupLayout panelQuizLayout = new javax.swing.GroupLayout(panelQuiz);
         panelQuiz.setLayout(panelQuizLayout);
@@ -494,81 +802,78 @@ public class Principal extends javax.swing.JFrame {
             .addGroup(panelQuizLayout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(panelQuizLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel9, javax.swing.GroupLayout.DEFAULT_SIZE, 608, Short.MAX_VALUE)
-                    .addGroup(panelQuizLayout.createSequentialGroup()
-                        .addGroup(panelQuizLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(labelNumPregunta)
-                            .addComponent(jLabel11))
-                        .addGap(0, 0, Short.MAX_VALUE))
+                    .addComponent(jScrollPane6, javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jLabel9, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelQuizLayout.createSequentialGroup()
                         .addGroup(panelQuizLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(panelQuizLayout.createSequentialGroup()
-                                .addComponent(rbPlayOpt1)
+                                .addComponent(rbPlayOpt4)
                                 .addGap(0, 0, Short.MAX_VALUE))
                             .addGroup(panelQuizLayout.createSequentialGroup()
                                 .addGroup(panelQuizLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelQuizLayout.createSequentialGroup()
-                                        .addGap(0, 0, Short.MAX_VALUE)
-                                        .addGroup(panelQuizLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                            .addComponent(rbPlayOpt3)
-                                            .addComponent(rbPlayOpt2)))
-                                    .addGroup(panelQuizLayout.createSequentialGroup()
-                                        .addComponent(rbPlayOpt4)
-                                        .addGap(0, 0, Short.MAX_VALUE)))
-                                .addGap(18, 18, 18)))
+                                    .addComponent(rbPlayOpt2, javax.swing.GroupLayout.Alignment.TRAILING)
+                                    .addComponent(rbPlayOpt3, javax.swing.GroupLayout.Alignment.TRAILING)
+                                    .addComponent(rbPlayOpt1, javax.swing.GroupLayout.Alignment.TRAILING))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                         .addGroup(panelQuizLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(playRespuesta4, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 570, Short.MAX_VALUE)
-                            .addComponent(playRespuesta3, javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(playRespuesta2, javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(playRespuesta1, javax.swing.GroupLayout.Alignment.TRAILING)))
-                    .addComponent(playPregunta)
+                            .addComponent(jScrollPane7, javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(jScrollPane10, javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(jScrollPane9, javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(jScrollPane11, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 583, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addGroup(panelQuizLayout.createSequentialGroup()
+                        .addGroup(panelQuizLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel11)
+                            .addComponent(labelNumPregunta))
+                        .addGap(0, 0, Short.MAX_VALUE))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelQuizLayout.createSequentialGroup()
-                        .addGap(0, 0, Short.MAX_VALUE)
-                        .addComponent(btnPlayNextQuestion)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(btnFinalizarPlay)))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(btnPlayNextQuestion, javax.swing.GroupLayout.PREFERRED_SIZE, 99, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(btnFinalizarPlay, javax.swing.GroupLayout.PREFERRED_SIZE, 92, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(2, 2, 2)))
                 .addContainerGap())
         );
         panelQuizLayout.setVerticalGroup(
             panelQuizLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(panelQuizLayout.createSequentialGroup()
                 .addContainerGap()
+                .addComponent(jLabel9, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(labelNumPregunta)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jScrollPane6, javax.swing.GroupLayout.PREFERRED_SIZE, 52, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jLabel11)
+                .addGap(0, 0, Short.MAX_VALUE)
+                .addGroup(panelQuizLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jScrollPane11, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(rbPlayOpt1, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(panelQuizLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(rbPlayOpt2, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jScrollPane7, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(panelQuizLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(rbPlayOpt3, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jScrollPane9, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(6, 6, 6)
+                .addGroup(panelQuizLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(rbPlayOpt4, javax.swing.GroupLayout.PREFERRED_SIZE, 49, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(panelQuizLayout.createSequentialGroup()
-                        .addComponent(jLabel9, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
-                        .addComponent(labelNumPregunta)
+                        .addComponent(jScrollPane10, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(playPregunta, javax.swing.GroupLayout.PREFERRED_SIZE, 48, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jLabel11)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addGroup(panelQuizLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(playRespuesta1, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(rbPlayOpt1, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(14, 14, 14)
-                        .addComponent(playRespuesta2, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(rbPlayOpt2, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(panelQuizLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(playRespuesta3, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(rbPlayOpt3, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(panelQuizLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(playRespuesta4, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(rbPlayOpt4, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
-                .addGroup(panelQuizLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(btnPlayNextQuestion)
-                    .addComponent(btnFinalizarPlay))
-                .addContainerGap(22, Short.MAX_VALUE))
+                            .addComponent(btnPlayNextQuestion, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(btnFinalizarPlay, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                .addGap(20, 20, 20))
         );
 
         panelContenedor.add(panelQuiz, new org.netbeans.lib.awtextra.AbsoluteConstraints(220, 80, 630, 400));
 
         panelCalificacion.setBackground(new java.awt.Color(255, 255, 255));
-        panelCalificacion.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(239, 250, 244), 5, true));
-        panelCalificacion.setForeground(new java.awt.Color(243, 244, 243));
+        panelCalificacion.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(255, 204, 0), 5, true));
+        panelCalificacion.setForeground(new java.awt.Color(0, 102, 51));
+        panelCalificacion.setToolTipText("");
 
         btnSalirdeQuiz.setBackground(new java.awt.Color(0, 102, 51));
         btnSalirdeQuiz.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
@@ -602,24 +907,22 @@ public class Principal extends javax.swing.JFrame {
         panelCalificacionLayout.setHorizontalGroup(
             panelCalificacionLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(panelCalificacionLayout.createSequentialGroup()
-                .addGroup(panelCalificacionLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(panelCalificacionLayout.createSequentialGroup()
-                        .addContainerGap()
-                        .addComponent(jLabel12, javax.swing.GroupLayout.PREFERRED_SIZE, 608, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(panelCalificacionLayout.createSequentialGroup()
-                        .addGap(217, 217, 217)
-                        .addGroup(panelCalificacionLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(btnSalirdeQuiz, javax.swing.GroupLayout.PREFERRED_SIZE, 173, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(calificacion, javax.swing.GroupLayout.PREFERRED_SIZE, 173, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel10, javax.swing.GroupLayout.PREFERRED_SIZE, 173, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                .addContainerGap(60, Short.MAX_VALUE))
+                .addGap(217, 217, 217)
+                .addGroup(panelCalificacionLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(btnSalirdeQuiz, javax.swing.GroupLayout.PREFERRED_SIZE, 173, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(calificacion, javax.swing.GroupLayout.PREFERRED_SIZE, 173, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel10, javax.swing.GroupLayout.PREFERRED_SIZE, 173, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(230, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelCalificacionLayout.createSequentialGroup()
+                .addGap(0, 0, Short.MAX_VALUE)
+                .addComponent(jLabel12, javax.swing.GroupLayout.PREFERRED_SIZE, 608, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
         panelCalificacionLayout.setVerticalGroup(
             panelCalificacionLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(panelCalificacionLayout.createSequentialGroup()
-                .addGap(0, 0, 0)
+                .addContainerGap()
                 .addComponent(jLabel12, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(52, 52, 52)
+                .addGap(46, 46, 46)
                 .addComponent(jLabel10, javax.swing.GroupLayout.PREFERRED_SIZE, 58, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(calificacion, javax.swing.GroupLayout.PREFERRED_SIZE, 58, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -648,20 +951,28 @@ public class Principal extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void inicioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_inicioActionPerformed
+        
         this.panelInicio.setVisible(true);
         this.panelHistorico.setVisible(false);
         this.panelConfig.setVisible(false);
         this.panelPlay.setVisible(false);
         this.panelCalificacion.setVisible(false);
+        this.panelEducacion.setVisible(false);
+        this.panelDatoCurioso.setVisible(false);
+        this.getPizarra1();
+
     }//GEN-LAST:event_inicioActionPerformed
 
     private void historicoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_historicoActionPerformed
         // accion del boton historico
+        this.consultaTablaHistorico();
         this.panelInicio.setVisible(false);
         this.panelHistorico.setVisible(true);
         this.panelConfig.setVisible(false);
         this.panelPlay.setVisible(false);
         this.panelCalificacion.setVisible(false);
+        this.panelEducacion.setVisible(false);
+        this.panelDatoCurioso.setVisible(false);
     }//GEN-LAST:event_historicoActionPerformed
 
     private void jugarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jugarActionPerformed
@@ -671,11 +982,12 @@ public class Principal extends javax.swing.JFrame {
         this.panelConfig.setVisible(false);
         this.panelPlay.setVisible(true);
         this.panelCalificacion.setVisible(false);
-
+        this.panelEducacion.setVisible(false);
+        this.panelDatoCurioso.setVisible(false);
         this.recorridoPlay = 0;
         this.listaPreguntasPlay.clear();
         this.listaRespuestaPlay.clear();
-
+        
 
     }//GEN-LAST:event_jugarActionPerformed
 
@@ -686,7 +998,8 @@ public class Principal extends javax.swing.JFrame {
         this.panelConfig.setVisible(true);
         this.panelPlay.setVisible(false);
         this.panelCalificacion.setVisible(false);
-
+        this.panelEducacion.setVisible(false);
+        this.panelDatoCurioso.setVisible(false);
 
     }//GEN-LAST:event_ConfiguracionActionPerformed
 
@@ -703,7 +1016,7 @@ public class Principal extends javax.swing.JFrame {
     private void btnSencilloActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSencilloActionPerformed
         //Accion de seleccion de boton sencillo
         consultarPreguntasBD(5);
-
+        
         this.panelPlay.setVisible(false);
         this.panelQuiz.setVisible(true);
         this.diseableMenuWhilePlaying();
@@ -713,7 +1026,7 @@ public class Principal extends javax.swing.JFrame {
     private void btnNormalActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNormalActionPerformed
         //Accion de seleccion de boton normal
         consultarPreguntasBD(10);
-
+        
         this.panelPlay.setVisible(false);
         this.panelQuiz.setVisible(true);
         this.diseableMenuWhilePlaying();
@@ -723,7 +1036,7 @@ public class Principal extends javax.swing.JFrame {
     private void btnDificilActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDificilActionPerformed
         //Accion de seleccion de boton dificil
         consultarPreguntasBD(20);
-
+        
         this.panelPlay.setVisible(false);
         this.panelQuiz.setVisible(true);
         this.diseableMenuWhilePlaying();
@@ -737,12 +1050,12 @@ public class Principal extends javax.swing.JFrame {
 
         //obtener pregunta de la configuracion
         tbQuiz.setPregunta(preguntaConf.getText());
-
+        
         String queryQuiz = "Insert into tb_Quiz (pregunta)"
                 + "values(?) ";
         int idQuiz = 0; //reemplazar por el ID generado del insert
         try (Connection conn = conexionDB.getDbConnection(); PreparedStatement ps = conn.prepareStatement(queryQuiz, PreparedStatement.RETURN_GENERATED_KEYS)) {
-
+            
             ps.setString(1, tbQuiz.getPregunta());
             ps.execute();
             try (ResultSet idGenerado = ps.getGeneratedKeys()) {
@@ -751,9 +1064,9 @@ public class Principal extends javax.swing.JFrame {
                     System.out.println("id obtenido: " + idQuiz);
                 }
             }
-
+            
         } catch (Exception ex) {
-            System.out.println("problemas con la insercion de la cabecera de pregunta: " + ex);
+            System.out.println("problemas con la insercion de la de pregunta: " + ex);
             return;
         }
 
@@ -765,21 +1078,21 @@ public class Principal extends javax.swing.JFrame {
         //todo: falta agregar los demas valores de la respuesta
 
         String queryResponse = "insert into tb_quiz_Response (respuestas, validate, fk_id_quiz ) values(?,?,?)";
-
+        
         try (Connection conn = conexionDB.getDbConnection(); PreparedStatement ps = conn.prepareStatement(queryResponse)) {
             int i = 0;
             for (tb_respuestas respuesta : arrayRespuestas) {
                 ps.setString(1, respuesta.getRespuestas());
                 ps.setBoolean(2, respuesta.isValidate());
                 ps.setInt(3, idQuiz);
-
+                
                 ps.addBatch();
                 i++;
                 if (i % 1000 == 0 || i == arrayRespuestas.size()) {
                     ps.executeBatch(); // Execute every 1000 items.
                 }
             }
-
+            
             JOptionPane.showMessageDialog(null, "Insercion de pregunta y respuesta exitosa!");
         } catch (Exception ex) {
             JOptionPane.showMessageDialog(null, "Problemas con la insercion de la pregunta o respuesta: " + ex);
@@ -791,21 +1104,21 @@ public class Principal extends javax.swing.JFrame {
         // TODO add your handling code here:
 
         almacenarOpcionEscogidaJuego();
-
+        
         this.recorridoPlay += 1;
-
+        
         this.labelNumPregunta.setText("Pregunta #" + (this.recorridoPlay + 1));
-
+        
         this.rbPlayOpt1.setSelected(false);
         this.rbPlayOpt2.setSelected(false);
         this.rbPlayOpt3.setSelected(false);
         this.rbPlayOpt4.setSelected(false);
-
+        
         this.playRespuesta1.setText("");
         this.playRespuesta2.setText("");
         this.playRespuesta3.setText("");
         this.playRespuesta4.setText("");
-
+        
         System.out.println("Valor de recorrido: " + this.recorridoPlay
                 + " Valor de total de lista: " + (this.listaPreguntasPlay.size() - 1));
         presentarPreguntaPlay(recorridoPlay);
@@ -818,9 +1131,9 @@ public class Principal extends javax.swing.JFrame {
     private void btnFinalizarPlayActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnFinalizarPlayActionPerformed
         // TODO add your handling code here:
         almacenarOpcionEscogidaJuego();
-
+        
         int totalPreguntas = this.listaPreguntasPlay.size();
-
+        
         for (RespuestaSeleccionUsuario seleccion : listaRespuestaPlay) {
             tb_quiz pregunta = this.listaPreguntasPlay.get(seleccion.getIndexPregunta());
             tb_respuestas respuesta = pregunta.getRespuestas().get(seleccion.getIndexRespuesta());
@@ -828,58 +1141,181 @@ public class Principal extends javax.swing.JFrame {
                 this.totalPreguntasCorrectas++;
             }
         }
-
+        
         this.panelCalificacion.setVisible(true);
         this.panelQuiz.setVisible(false);
         this.panelConfig.setVisible(false);
         this.panelPlay.setVisible(false);
         this.panelHistorico.setVisible(false);
         this.panelInicio.setVisible(false);
-
+        
         calificacion.setText(this.totalPreguntasCorrectas + "/" + totalPreguntas);
-
+        
         System.out.println("Total de preguntas " + totalPreguntas);
         System.out.println("Total de preguntas acertadas " + this.totalPreguntasCorrectas);
     }//GEN-LAST:event_btnFinalizarPlayActionPerformed
 
     private void btnSalirdeQuizActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSalirdeQuizActionPerformed
         // clic al salir del juego
+        LocalDate fechaActual = LocalDate.now();
+        java.sql.Date fechaSql = java.sql.Date.valueOf(fechaActual);
         Object[] options = {"OK"};
         int result = JOptionPane.showOptionDialog(null, "Su calificación ha sido enviada al docente", "Evaluación finalizada", JOptionPane.DEFAULT_OPTION, JOptionPane.INFORMATION_MESSAGE, null, options, options[0]);
         if (result == JOptionPane.OK_OPTION) {
-            this.recorridoPlay = 0;
-            this.listaPreguntasPlay.clear();
-            this.listaRespuestaPlay.clear();
-
             this.panelCalificacion.setVisible(false);
             this.panelQuiz.setVisible(false);
             this.panelConfig.setVisible(false);
             this.panelPlay.setVisible(false);
             this.panelHistorico.setVisible(false);
             this.panelInicio.setVisible(true);
-
+            
             this.diseableMenuWhilePlaying();
-
-            String queryHistorico = "insert into tb_historico(fk_id_registros, nombreAlumno, ApellidoAlumno ,puntaje) values (?,?,?,?) ";
-
+            
+            String queryHistorico = "insert into tb_historico(fk_id_registros, nombreAlumno, ApellidoAlumno ,puntaje,fecha) values (?,?,?,?,?) ";
+            
             try (Connection conn = conexionDB.getDbConnection(); PreparedStatement ps = conn.prepareStatement(queryHistorico)) {
-
+                
                 ps.setInt(1, this.idLogin);
                 ps.setString(2, this.nombreAlumno); //nombreAlumno
                 ps.setString(3, this.apellidoAlumno); //apellidoAlumno
                 ps.setInt(4, this.totalPreguntasCorrectas);
-
+                ps.setDate(5, fechaSql);
+                
                 ps.execute();
-
+                
             } catch (Exception ex) {
                 JOptionPane.showMessageDialog(null, "Error al insertar data en el histórico: " + ex);
             }
-
         }
-
-
     }//GEN-LAST:event_btnSalirdeQuizActionPerformed
 
+    private void datoCuriosoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_datoCuriosoActionPerformed
+        this.panelDatoCurioso.setVisible(true);
+        this.panelInicio.setVisible(false);
+        this.panelHistorico.setVisible(false);
+        this.panelConfig.setVisible(false);
+        this.panelPlay.setVisible(false);
+        this.panelCalificacion.setVisible(false);
+        this.panelEducacion.setVisible(false);
+        this.getDatosCuriososPrimer();
+
+    }//GEN-LAST:event_datoCuriosoActionPerformed
+
+    private void actualizarTema1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_actualizarTema1ActionPerformed
+        String queryUpdateDato = "UPDATE tb_dato_curioso SET dato_curioso= ? WHERE idDato=1";
+        
+        tbDatoCurioso dato = new tbDatoCurioso();
+        
+        dato.setDato_curioso(temaEstudio1.getText());
+        
+        try (Connection conn = conexionDB.getDbConnection(); PreparedStatement ps = conn.prepareStatement(queryUpdateDato)) {
+            ps.setString(1, dato.getDato_curioso());
+            ps.executeUpdate();
+            JOptionPane.showMessageDialog(null, "Actualizacion de tema exitoso");
+        } catch (Exception ex) {
+            JOptionPane.showMessageDialog(null, "Error al actualizar el tema de estudio: " + ex);
+        }
+    }//GEN-LAST:event_actualizarTema1ActionPerformed
+
+    private void actualizarTema2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_actualizarTema2ActionPerformed
+        String queryUpdateDato = "UPDATE tb_dato_curioso SET dato_curioso=? WHERE idDato=2";
+        
+        tbDatoCurioso dato = new tbDatoCurioso();
+        dato.setDato_curioso(temaEstudio2.getText());
+        
+        try (Connection conn = conexionDB.getDbConnection(); PreparedStatement ps = conn.prepareStatement(queryUpdateDato)) {
+            ps.setString(1, dato.getDato_curioso());
+            ps.executeUpdate();
+            JOptionPane.showMessageDialog(null, "Actualizacion de tema exitoso");
+        } catch (Exception ex) {
+            JOptionPane.showMessageDialog(null, "Error al actualizar el tema de estudio: " + ex);
+        }
+    }//GEN-LAST:event_actualizarTema2ActionPerformed
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        this.panelInicio.setVisible(false);
+        this.panelEducacion.setVisible(true);
+        this.getPizarra2();
+    }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+        this.panelInicio.setVisible(true);
+        this.panelEducacion.setVisible(false);
+        this.getPizarra1();
+    }//GEN-LAST:event_jButton2ActionPerformed
+
+    private void rbPlayOpt3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rbPlayOpt3ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_rbPlayOpt3ActionPerformed
+
+    private void rbPlayOpt2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rbPlayOpt2ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_rbPlayOpt2ActionPerformed
+
+    private void rbPlayOpt4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rbPlayOpt4ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_rbPlayOpt4ActionPerformed
+    
+    public void getDatosCuriososPrimer() {
+        
+        String queryConsultaDatoCurioso = "select * from tb_dato_curioso where idDato= 1";
+        String queryConsultaDatoCurioso2 = "select * from tb_dato_curioso where idDato= 2";
+        
+        try (Connection conn = conexionDB.getDbConnection(); PreparedStatement ps = conn.prepareStatement(queryConsultaDatoCurioso)) {
+            try (ResultSet rs = ps.executeQuery()) {
+                if (rs.next()) {
+                    String temaEstudio = rs.getString("dato_curioso");
+                    temaEstudio1.setText(temaEstudio);
+                }
+            }
+        } catch (Exception ex) {
+            JOptionPane.showMessageDialog(null, "Error al presentar la data anterior: " + ex);
+        }
+        
+        try (Connection conn = conexionDB.getDbConnection(); PreparedStatement ps = conn.prepareStatement(queryConsultaDatoCurioso2)) {
+            try (ResultSet rs = ps.executeQuery()) {
+                if (rs.next()) {
+                    String temaEstudio = rs.getString("dato_curioso");
+                    temaEstudio2.setText(temaEstudio);
+                }
+            }
+        } catch (Exception ex) {
+            JOptionPane.showMessageDialog(null, "Error al presentar la data anterior: " + ex);
+        }
+        
+    }
+    
+    public void getPizarra1() {
+        String queryConsultaDatoCurioso = "select * from tb_dato_curioso where idDato= 1";
+        
+        try (Connection conn = conexionDB.getDbConnection(); PreparedStatement ps = conn.prepareStatement(queryConsultaDatoCurioso)) {
+            try (ResultSet rs = ps.executeQuery()) {
+                if (rs.next()) {
+                    String temaEstudio = rs.getString("dato_curioso");
+                    pizarra1.setText(temaEstudio);
+                }
+            }
+        } catch (Exception ex) {
+            JOptionPane.showMessageDialog(null, "Error al presentar la data anterior: " + ex);
+        }
+        
+    }
+    
+    public void getPizarra2() {
+        
+        String queryConsultaDatoCurioso2 = "select * from tb_dato_curioso where idDato= 2";
+        try (Connection conn = conexionDB.getDbConnection(); PreparedStatement ps = conn.prepareStatement(queryConsultaDatoCurioso2)) {
+            try (ResultSet rs = ps.executeQuery()) {
+                if (rs.next()) {
+                    String temaEstudio = rs.getString("dato_curioso");
+                    pizarra2.setText(temaEstudio);
+                }
+            }
+        } catch (Exception ex) {
+            JOptionPane.showMessageDialog(null, "Error al presentar la data anterior: " + ex);
+        }
+    }
+    
     public void almacenarOpcionEscogidaJuego() {
         int opcionSeleccionada = -1;
         if (rbPlayOpt1.isSelected()) {
@@ -891,35 +1327,37 @@ public class Principal extends javax.swing.JFrame {
         } else if (rbPlayOpt4.isSelected()) {
             opcionSeleccionada = 3;
         }
-
+        
         listaRespuestaPlay.add(new RespuestaSeleccionUsuario(
                 this.recorridoPlay,
                 opcionSeleccionada
         ));
     }
-
+    
     public void inhabilitaOpcionesUsuario(int idPersona) {
-        if (idPersona == 2) {
+        if (idPersona == 2) { //alumno
             Configuracion.setVisible(false);
-            //jugar.setVisible(true);
-        } else {
+            historico.setVisible(false);
+            datoCurioso.setVisible(false);
+        } else { //docente
             Configuracion.setVisible(true);
-            //jugar.setVisible(false);
+            historico.setVisible(true);
+            datoCurioso.setVisible(true);
         }
     }
-
+    
     public void obtenerNombreAlumnoLogin(String nombre) {
         this.nombreAlumno = nombre;
     }
-
+    
     public void obtenerApellidoAlumnoLogin(String apellido) {
         this.apellidoAlumno = apellido;
     }
-
+    
     public void obtenerIdLogin(int idLogin) {
         this.idLogin = idLogin;
     }
-
+    
     void presentarPreguntaPlay(int recorrido) {
         tb_quiz quiz = listaPreguntasPlay.get(recorrido);
         this.playPregunta.setText(quiz.getPregunta());
@@ -929,48 +1367,62 @@ public class Principal extends javax.swing.JFrame {
             if (i == 0) {
                 this.playRespuesta1.setText(listResp.get(0).getRespuestas());
             }
-
+            
             if (i == 1) {
                 this.playRespuesta2.setText(listResp.get(1).getRespuestas());
             }
-
+            
             if (i == 2) {
                 this.playRespuesta3.setText(listResp.get(2).getRespuestas());
             }
-
+            
             if (i == 3) {
                 this.playRespuesta4.setText(listResp.get(3).getRespuestas());
             }
         }
     }
-
+    
     public void diseableMenuWhilePlaying() {
-
+        
         if (this.panelQuiz.isVisible()) {
             this.inicio.setEnabled(false);
             this.Configuracion.setEnabled(false);
             this.jugar.setEnabled(false);
             this.historico.setEnabled(false);
+            this.datoCurioso.setEnabled(false);
         } else {
             this.inicio.setEnabled(true);
             this.Configuracion.setEnabled(true);
             this.jugar.setEnabled(true);
             this.historico.setEnabled(true);
+            this.datoCurioso.setEnabled(true);
         }
     }
-
+    
+    public void restartPlay() {
+        this.recorridoPlay = 0;
+        listaPreguntasPlay.clear();
+        listaRespuestaPlay.clear();
+        
+        this.btnFinalizarPlay.setEnabled(false);
+        this.btnPlayNextQuestion.setEnabled(true);
+        this.labelNumPregunta.setText("Pregunta #1");
+    }
+    
     public void consultarPreguntasBD(int maxPreguntas) {
+        restartPlay();
+        
         String queryPreguntas = "select * from tb_Quiz order by rand() limit ?";
-
+        
         try (Connection conn = conexionDB.getDbConnection(); PreparedStatement ps = conn.prepareStatement(queryPreguntas)) {
             ps.setInt(1, maxPreguntas);
-
+            
             try (ResultSet rs = ps.executeQuery()) {
                 while (rs.next()) {
                     tb_quiz quiz = new tb_quiz(rs.getInt("idquiz"),
                             rs.getString("pregunta"),
                             consultaRespuestasByIdQuiz(conn, rs.getInt("idquiz")));
-
+                    
                     listaPreguntasPlay.add(quiz);
                 }
             }
@@ -979,13 +1431,13 @@ public class Principal extends javax.swing.JFrame {
         }
         System.out.println("Lista preguntas " + listaPreguntasPlay.toString());
     }
-
+    
     private List<tb_respuestas> consultaRespuestasByIdQuiz(Connection conn, int idQuiz) {
         List<tb_respuestas> listaRespuestas = new ArrayList<>();
         String queryRespuestas = "select * from tb_quiz_Response where fk_id_quiz = ?";
         try (PreparedStatement ps = conn.prepareCall(queryRespuestas)) {
             ps.setInt(1, idQuiz);
-
+            
             try (ResultSet rs = ps.executeQuery()) {
                 while (rs.next()) {
                     tb_respuestas response = new tb_respuestas(
@@ -993,7 +1445,6 @@ public class Principal extends javax.swing.JFrame {
                             rs.getString("respuestas"),
                             rs.getInt("validate") == 1
                     );
-
                     listaRespuestas.add(response);
                 }
             }
@@ -1002,6 +1453,29 @@ public class Principal extends javax.swing.JFrame {
             listaRespuestas = Collections.emptyList();
         }
         return listaRespuestas;
+    }
+    
+    public void consultaTablaHistorico() {
+        DefaultTableModel dataTable = new DefaultTableModel();
+        dataTable.addColumn("Nombre");
+        dataTable.addColumn("Apellido");
+        dataTable.addColumn("Calificación");
+        dataTable.addColumn("Fecha");
+        //dataTable.addColumn("");
+
+        String queryHistorico = "Select * from tb_historico";
+        
+        try (Connection conn = conexionDB.getDbConnection(); PreparedStatement ps = conn.prepareStatement(queryHistorico)) {
+            try (ResultSet rs = ps.executeQuery()) {
+                while (rs.next()) {
+                    dataTable.addRow(new Object[]{rs.getString("nombreAlumno"), rs.getString("apellidoAlumno"), rs.getInt("puntaje"), rs.getDate("fecha")});
+                }
+            }
+        } catch (Exception e) {
+        }
+        
+        this.tablaHistorico.setModel(dataTable);
+        
     }
 
     /**
@@ -1042,6 +1516,8 @@ public class Principal extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton Configuracion;
+    private javax.swing.JButton actualizarTema1;
+    private javax.swing.JButton actualizarTema2;
     private javax.swing.JLabel background;
     private javax.swing.JButton btnDificil;
     private javax.swing.JButton btnFinalizarPlay;
@@ -1053,34 +1529,54 @@ public class Principal extends javax.swing.JFrame {
     private javax.swing.JButton btnSencillo;
     private javax.swing.JLabel calificacion;
     private javax.swing.JButton cancelarPreguntaRespConf;
+    private javax.swing.JButton datoCurioso;
     private javax.swing.JButton guardarPreguntaRespConf;
     private javax.swing.JButton historico;
     private javax.swing.JButton inicio;
+    private javax.swing.JButton jButton1;
+    private javax.swing.JButton jButton2;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel12;
+    private javax.swing.JLabel jLabel13;
+    private javax.swing.JLabel jLabel15;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
+    private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel9;
+    private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JScrollPane jScrollPane10;
+    private javax.swing.JScrollPane jScrollPane11;
+    private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JScrollPane jScrollPane3;
+    private javax.swing.JScrollPane jScrollPane4;
+    private javax.swing.JScrollPane jScrollPane5;
+    private javax.swing.JScrollPane jScrollPane6;
+    private javax.swing.JScrollPane jScrollPane7;
+    private javax.swing.JScrollPane jScrollPane9;
     private javax.swing.JButton jugar;
     private javax.swing.JLabel labelNumPregunta;
     private javax.swing.JPanel panelCalificacion;
     private javax.swing.JPanel panelConfig;
     private javax.swing.JPanel panelContenedor;
+    private javax.swing.JPanel panelDatoCurioso;
+    private javax.swing.JPanel panelEducacion;
     private javax.swing.JPanel panelHistorico;
     private javax.swing.JPanel panelInicio;
     private javax.swing.JPanel panelPlay;
     private javax.swing.JPanel panelQuiz;
-    private javax.swing.JTextField playPregunta;
-    private javax.swing.JTextField playRespuesta1;
-    private javax.swing.JTextField playRespuesta2;
-    private javax.swing.JTextField playRespuesta3;
-    private javax.swing.JTextField playRespuesta4;
+    private javax.swing.JTextArea pizarra1;
+    private javax.swing.JTextArea pizarra2;
+    private javax.swing.JTextArea playPregunta;
+    private javax.swing.JTextArea playRespuesta1;
+    private javax.swing.JTextArea playRespuesta2;
+    private javax.swing.JTextArea playRespuesta3;
+    private javax.swing.JTextArea playRespuesta4;
     private javax.swing.JTextField preguntaConf;
     private javax.swing.JRadioButton rbPlayOpt1;
     private javax.swing.JRadioButton rbPlayOpt2;
@@ -1090,6 +1586,9 @@ public class Principal extends javax.swing.JFrame {
     private javax.swing.JTextField resp2;
     private javax.swing.JTextField resp3;
     private javax.swing.JTextField resp4;
+    private javax.swing.JTable tablaHistorico;
+    private javax.swing.JTextArea temaEstudio1;
+    private javax.swing.JTextArea temaEstudio2;
     private javax.swing.JRadioButton validateBtn1;
     private javax.swing.JRadioButton validateBtn2;
     private javax.swing.JRadioButton validateBtn3;
