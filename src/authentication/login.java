@@ -280,7 +280,7 @@ public class login extends javax.swing.JFrame {
     private void ocultarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_ocultarMouseClicked
         ver.setVisible(true);
         ocultar.setVisible(false);
-        clave.setEchoChar('◉');
+        clave.setEchoChar('•');
     }//GEN-LAST:event_ocultarMouseClicked
 
 

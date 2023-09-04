@@ -23,6 +23,8 @@ public class registrar extends javax.swing.JFrame {
             System.err.println(ex);
         }
         initComponents();
+        this.rocultar.setVisible(false);
+
         
 
         conexion = new conexionMysql();
@@ -36,7 +38,9 @@ public class registrar extends javax.swing.JFrame {
         apellido = new javax.swing.JTextField();
         usuario = new javax.swing.JTextField();
         nombre = new javax.swing.JTextField();
-        clave = new javax.swing.JTextField();
+        rocultar = new javax.swing.JLabel();
+        rver = new javax.swing.JLabel();
+        rclave = new javax.swing.JPasswordField();
         categoriaRegistro = new javax.swing.JComboBox<>();
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
@@ -61,8 +65,22 @@ public class registrar extends javax.swing.JFrame {
         nombre.setBorder(null);
         jPanel1.add(nombre, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 150, 270, 30));
 
-        clave.setToolTipText("Clave");
-        jPanel1.add(clave, new org.netbeans.lib.awtextra.AbsoluteConstraints(360, 210, 270, 30));
+        rocultar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/ocultar_32px.png"))); // NOI18N
+        rocultar.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                rocultarMouseClicked(evt);
+            }
+        });
+        jPanel1.add(rocultar, new org.netbeans.lib.awtextra.AbsoluteConstraints(590, 210, 30, 30));
+
+        rver.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/ver_32px.png"))); // NOI18N
+        rver.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                rverMouseClicked(evt);
+            }
+        });
+        jPanel1.add(rver, new org.netbeans.lib.awtextra.AbsoluteConstraints(590, 210, 40, 30));
+        jPanel1.add(rclave, new org.netbeans.lib.awtextra.AbsoluteConstraints(360, 210, 270, 30));
 
         categoriaRegistro.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Seleccione...", "Docente", "Alumno" }));
         categoriaRegistro.addActionListener(new java.awt.event.ActionListener() {
@@ -164,7 +182,7 @@ public class registrar extends javax.swing.JFrame {
         entidadRegistro.setNombres(nombre.getText());
         entidadRegistro.setApellido(apellido.getText());
         entidadRegistro.setUsuario(usuario.getText());
-        entidadRegistro.setClave(clave.getText());
+        entidadRegistro.setClave(new String (rclave.getPassword()));
         entidadRegistro.setFk_id_Persona(Categoria);
 
         String sqlQuery = "insert into tb_registros(nombres, apellido, usuario, clave, fk_id_persona) values(?,?,?,?,?)";
@@ -196,7 +214,7 @@ public class registrar extends javax.swing.JFrame {
 
   String passwordRegex = "^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[@#$%^&+=!*]).{8,20}$";
   Pattern pattern = Pattern.compile(passwordRegex);
-  Matcher matcher = pattern.matcher(String.valueOf(clave.getText()));
+  Matcher matcher = pattern.matcher(String.valueOf(rclave.getPassword()));
 
   boolean isValid = true; // Variable para verificar si todos los campos son válidos
 
@@ -231,6 +249,18 @@ public class registrar extends javax.swing.JFrame {
 
     }//GEN-LAST:event_categoriaRegistroActionPerformed
 
+    private void rocultarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_rocultarMouseClicked
+        rver.setVisible(true);
+        rocultar.setVisible(false);
+        rclave.setEchoChar('•');
+    }//GEN-LAST:event_rocultarMouseClicked
+
+    private void rverMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_rverMouseClicked
+        rver.setVisible(false);
+        rocultar.setVisible(true);
+        rclave.setEchoChar((char)0);
+    }//GEN-LAST:event_rverMouseClicked
+
     private void CloseWindow() {
         this.dispose();
     }
@@ -252,7 +282,6 @@ public class registrar extends javax.swing.JFrame {
     private javax.swing.JTextField apellido;
     private javax.swing.JButton cancelar;
     private javax.swing.JComboBox<String> categoriaRegistro;
-    private javax.swing.JTextField clave;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
@@ -260,7 +289,10 @@ public class registrar extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel5;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JTextField nombre;
+    private javax.swing.JPasswordField rclave;
     private javax.swing.JLabel registroBackground;
+    private javax.swing.JLabel rocultar;
+    private javax.swing.JLabel rver;
     private javax.swing.JTextField usuario;
     // End of variables declaration//GEN-END:variables
 }
