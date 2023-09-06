@@ -16,8 +16,11 @@ import java.util.Collections;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import forms.Cronometro;
+import forms.render;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+import javax.swing.JButton;
+
 /**
  *
  * @author Maluli
@@ -32,16 +35,16 @@ public class Principal extends javax.swing.JFrame {
     String nombreAlumno = "";
     String apellidoAlumno = "";
     int idLogin;
-    int k=0;
-    
+    int k = 0;
+
     Cronometro cronometro = new Cronometro(1000, new ActionListener() {
-    @Override
-    public void actionPerformed(ActionEvent e) {
-        // Actualiza el JLabel con el tiempo transcurrido
-        k++;
-        etiquetaTiempo.setText(String.valueOf(k)+ " segundos");
-        
-    }
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            // Actualiza el JLabel con el tiempo transcurrido
+            k++;
+            etiquetaTiempo.setText(String.valueOf(k) + " segundos");
+
+        }
     });
 
     /**
@@ -359,12 +362,10 @@ public class Principal extends javax.swing.JFrame {
             }
         });
 
-        resp1.setEditable(false);
         resp1.setColumns(3);
 
         jLabel4.setText("Seleccione la respuesta que usted evaluará como correcta");
 
-        resp3.setEditable(false);
         resp3.setColumns(3);
         resp3.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -372,10 +373,7 @@ public class Principal extends javax.swing.JFrame {
             }
         });
 
-        resp2.setEditable(false);
         resp2.setColumns(3);
-
-        resp4.setEditable(false);
 
         jLabel5.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         jLabel5.setForeground(new java.awt.Color(0, 102, 51));
@@ -393,44 +391,37 @@ public class Principal extends javax.swing.JFrame {
         panelConfig.setLayout(panelConfigLayout);
         panelConfigLayout.setHorizontalGroup(
             panelConfigLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jLabel1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(jLabel1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 620, Short.MAX_VALUE)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelConfigLayout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(panelConfigLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addComponent(preguntaConf, javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(panelConfigLayout.createSequentialGroup()
+                        .addComponent(validateBtn4)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(panelConfigLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(panelConfigLayout.createSequentialGroup()
+                                .addGap(0, 339, Short.MAX_VALUE)
+                                .addComponent(cancelarPreguntaRespConf, javax.swing.GroupLayout.PREFERRED_SIZE, 113, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(18, 18, 18)
+                                .addComponent(guardarPreguntaRespConf, javax.swing.GroupLayout.PREFERRED_SIZE, 113, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(resp4)))
                     .addGroup(javax.swing.GroupLayout.Alignment.LEADING, panelConfigLayout.createSequentialGroup()
                         .addGroup(panelConfigLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                             .addComponent(jLabel2, javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel4, javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel5, javax.swing.GroupLayout.Alignment.LEADING))
                         .addGap(0, 0, Short.MAX_VALUE))
-                    .addGroup(panelConfigLayout.createSequentialGroup()
-                        .addGap(0, 16, Short.MAX_VALUE)
-                        .addGroup(panelConfigLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addGroup(panelConfigLayout.createSequentialGroup()
-                                .addComponent(validateBtn3)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(resp3, javax.swing.GroupLayout.PREFERRED_SIZE, 561, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(panelConfigLayout.createSequentialGroup()
-                                .addComponent(validateBtn4)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addGroup(panelConfigLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelConfigLayout.createSequentialGroup()
-                                        .addComponent(cancelarPreguntaRespConf, javax.swing.GroupLayout.PREFERRED_SIZE, 113, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                        .addComponent(guardarPreguntaRespConf, javax.swing.GroupLayout.PREFERRED_SIZE, 113, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                    .addComponent(resp4, javax.swing.GroupLayout.PREFERRED_SIZE, 561, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                            .addGroup(panelConfigLayout.createSequentialGroup()
-                                .addGroup(panelConfigLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelConfigLayout.createSequentialGroup()
-                                        .addComponent(validateBtn2)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED))
-                                    .addGroup(panelConfigLayout.createSequentialGroup()
-                                        .addComponent(validateBtn1)
-                                        .addGap(12, 12, 12)))
-                                .addGroup(panelConfigLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                    .addComponent(resp1)
-                                    .addComponent(resp2, javax.swing.GroupLayout.PREFERRED_SIZE, 561, javax.swing.GroupLayout.PREFERRED_SIZE))))))
+                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, panelConfigLayout.createSequentialGroup()
+                        .addGroup(panelConfigLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(validateBtn1)
+                            .addComponent(validateBtn2)
+                            .addComponent(validateBtn3))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(panelConfigLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(resp3)
+                            .addComponent(resp1)
+                            .addComponent(resp2))))
                 .addContainerGap())
         );
         panelConfigLayout.setVerticalGroup(
@@ -445,7 +436,7 @@ public class Principal extends javax.swing.JFrame {
                 .addComponent(jLabel5)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jLabel4)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 19, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(panelConfigLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(resp1, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(validateBtn1, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -453,19 +444,20 @@ public class Principal extends javax.swing.JFrame {
                 .addGroup(panelConfigLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addComponent(resp2, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(validateBtn2, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(panelConfigLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(resp3, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(validateBtn3, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGap(10, 10, 10)
+                .addGroup(panelConfigLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(resp3, javax.swing.GroupLayout.DEFAULT_SIZE, 30, Short.MAX_VALUE)
+                    .addComponent(validateBtn3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGap(10, 10, 10)
                 .addGroup(panelConfigLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(resp4, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(validateBtn4, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(panelConfigLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(guardarPreguntaRespConf, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(cancelarPreguntaRespConf, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(0, 0, 0))
+                    .addComponent(validateBtn4, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(panelConfigLayout.createSequentialGroup()
+                        .addComponent(resp4, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(panelConfigLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(cancelarPreguntaRespConf, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(guardarPreguntaRespConf, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                .addGap(15, 15, 15))
         );
 
         panelContenedor.add(panelConfig, new org.netbeans.lib.awtextra.AbsoluteConstraints(220, 80, 630, 400));
@@ -492,6 +484,11 @@ public class Principal extends javax.swing.JFrame {
         ));
         tablaPreguntas.setToolTipText("");
         tablaPreguntas.setEnabled(false);
+        tablaPreguntas.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tablaPreguntasMouseClicked(evt);
+            }
+        });
         jScrollPane8.setViewportView(tablaPreguntas);
 
         javax.swing.GroupLayout panelEditConfigLayout = new javax.swing.GroupLayout(panelEditConfig);
@@ -876,8 +873,6 @@ public class Principal extends javax.swing.JFrame {
         playRespuesta1.setWrapStyleWord(true);
         jScrollPane11.setViewportView(playRespuesta1);
 
-        etiquetaTiempo.setText("jLabel16");
-
         javax.swing.GroupLayout panelQuizLayout = new javax.swing.GroupLayout(panelQuiz);
         panelQuiz.setLayout(panelQuizLayout);
         panelQuizLayout.setHorizontalGroup(
@@ -906,9 +901,8 @@ public class Principal extends javax.swing.JFrame {
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelQuizLayout.createSequentialGroup()
                         .addGap(0, 0, Short.MAX_VALUE)
                         .addComponent(btnPlayNextQuestion, javax.swing.GroupLayout.PREFERRED_SIZE, 99, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(btnFinalizarPlay, javax.swing.GroupLayout.PREFERRED_SIZE, 92, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(2, 2, 2))
+                        .addGap(34, 34, 34)
+                        .addComponent(btnFinalizarPlay, javax.swing.GroupLayout.PREFERRED_SIZE, 92, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(panelQuizLayout.createSequentialGroup()
                         .addGroup(panelQuizLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel11)
@@ -990,6 +984,11 @@ public class Principal extends javax.swing.JFrame {
         calificacion.setForeground(new java.awt.Color(0, 102, 102));
         calificacion.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
 
+        TiempoTotal.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
+        TiempoTotal.setForeground(new java.awt.Color(0, 102, 51));
+        TiempoTotal.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        TiempoTotal.setToolTipText("");
+
         javax.swing.GroupLayout panelCalificacionLayout = new javax.swing.GroupLayout(panelCalificacion);
         panelCalificacion.setLayout(panelCalificacionLayout);
         panelCalificacionLayout.setHorizontalGroup(
@@ -1006,8 +1005,8 @@ public class Principal extends javax.swing.JFrame {
                             .addComponent(calificacion, javax.swing.GroupLayout.PREFERRED_SIZE, 173, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jLabel10, javax.swing.GroupLayout.PREFERRED_SIZE, 173, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addGroup(panelCalificacionLayout.createSequentialGroup()
-                        .addGap(276, 276, 276)
-                        .addComponent(TiempoTotal)))
+                        .addGap(195, 195, 195)
+                        .addComponent(TiempoTotal, javax.swing.GroupLayout.PREFERRED_SIZE, 210, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         panelCalificacionLayout.setVerticalGroup(
@@ -1019,9 +1018,9 @@ public class Principal extends javax.swing.JFrame {
                 .addComponent(jLabel10, javax.swing.GroupLayout.PREFERRED_SIZE, 58, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(calificacion, javax.swing.GroupLayout.PREFERRED_SIZE, 58, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 44, Short.MAX_VALUE)
                 .addComponent(TiempoTotal)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 50, Short.MAX_VALUE)
+                .addGap(18, 18, 18)
                 .addComponent(btnSalirdeQuiz, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(74, 74, 74))
         );
@@ -1085,8 +1084,8 @@ public class Principal extends javax.swing.JFrame {
         this.recorridoPlay = 0;
         this.listaPreguntasPlay.clear();
         this.listaRespuestaPlay.clear();
-
-
+        this.k = 0;
+        this.totalPreguntasCorrectas = 0;
     }//GEN-LAST:event_jugarActionPerformed
 
     private void ConfiguracionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ConfiguracionActionPerformed
@@ -1108,7 +1107,15 @@ public class Principal extends javax.swing.JFrame {
     private void cancelarPreguntaRespConfActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cancelarPreguntaRespConfActionPerformed
         // TODO add your handling code here:
         this.panelPlay.setVisible(false);
-        this.panelQuiz.setVisible(true);
+        this.panelQuiz.setVisible(false);
+        this.panelConfig.setVisible(false);
+        this.panelInicio.setVisible(true);
+        preguntaConf.setText("");
+        resp1.setText("");
+        resp2.setText("");
+        resp3.setText("");
+        resp4.setText("");
+        btnGrupoPreguntas.clearSelection();
     }//GEN-LAST:event_cancelarPreguntaRespConfActionPerformed
 
     private void btnSencilloActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSencilloActionPerformed
@@ -1146,6 +1153,10 @@ public class Principal extends javax.swing.JFrame {
 
     private void guardarPreguntaRespConfActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_guardarPreguntaRespConfActionPerformed
         // boton de accion para guardar configuracion de preguntas y respuestas
+        if ( preguntaConf.getText().isEmpty() || resp1.getText().isEmpty() || resp2.getText().isEmpty() || resp3.getText().isEmpty() || resp4.getText().isEmpty()) {
+            JOptionPane.showMessageDialog(null, "Por favor complete los datos correctamente para continuar");
+            return;
+        }
         tb_quiz tbQuiz = new tb_quiz();
         List<tb_respuestas> arrayRespuestas = new ArrayList<>();
 
@@ -1193,7 +1204,12 @@ public class Principal extends javax.swing.JFrame {
                     ps.executeBatch(); // Execute every 1000 items.
                 }
             }
-
+            preguntaConf.setText("");
+            resp1.setText("");
+            resp2.setText("");
+            resp3.setText("");
+            resp4.setText("");
+            btnGrupoPreguntas.clearSelection();
             JOptionPane.showMessageDialog(null, "Insercion de pregunta y respuesta exitosa!");
         } catch (Exception ex) {
             JOptionPane.showMessageDialog(null, "Problemas con la insercion de la pregunta o respuesta: " + ex);
@@ -1203,7 +1219,7 @@ public class Principal extends javax.swing.JFrame {
 
     private void btnPlayNextQuestionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPlayNextQuestionActionPerformed
         // TODO add your handling code here:
-
+        
         almacenarOpcionEscogidaJuego();
 
         this.recorridoPlay += 1;
@@ -1231,6 +1247,7 @@ public class Principal extends javax.swing.JFrame {
 
     private void btnFinalizarPlayActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnFinalizarPlayActionPerformed
         // TODO add your handling code here:
+       
         almacenarOpcionEscogidaJuego();
 
         int totalPreguntas = this.listaPreguntasPlay.size();
@@ -1254,7 +1271,7 @@ public class Principal extends javax.swing.JFrame {
 
         System.out.println("Total de preguntas " + totalPreguntas);
         System.out.println("Total de preguntas acertadas " + this.totalPreguntasCorrectas);
-        
+
         // Detener el cronómetro
         etiquetaTiempo.setText(String.valueOf(k) + " segundos"); // Detener el cronómetro
         if (cronometro.isRunning()) {
@@ -1270,7 +1287,7 @@ public class Principal extends javax.swing.JFrame {
     private void btnSalirdeQuizActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSalirdeQuizActionPerformed
         // clic al salir del juego
         int tiempoTranscurrido = k;
-        
+
         LocalDate fechaActual = LocalDate.now();
         java.sql.Date fechaSql = java.sql.Date.valueOf(fechaActual);
         Object[] options = {"OK"};
@@ -1295,7 +1312,6 @@ public class Principal extends javax.swing.JFrame {
                 ps.setInt(4, this.totalPreguntasCorrectas);
                 ps.setDate(5, fechaSql);
                 ps.setInt(6, tiempoTranscurrido);
-                
 
                 ps.execute();
 
@@ -1383,6 +1399,48 @@ public class Principal extends javax.swing.JFrame {
         this.panelEditConfig.setVisible(true);
         this.consultarTablaPreguntas();
     }//GEN-LAST:event_preguntasActionPerformed
+
+    private void tablaPreguntasMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tablaPreguntasMouseClicked
+
+        int column = tablaPreguntas.getColumnModel().getColumnIndexAtX(evt.getX());
+        int row = evt.getY() / tablaPreguntas.getRowHeight();
+
+        if (row < tablaPreguntas.getRowCount() && row >= 0 && column < tablaPreguntas.getColumnCount() && column >= 0) {
+            Object value = tablaPreguntas.getValueAt(row, column);
+            if (value instanceof JButton) {
+                ((JButton) value).doClick();
+                JButton boton = (JButton) value;
+                Object idRegistro = tablaPreguntas.getValueAt(row, 0);
+
+                int respuesta = JOptionPane.showConfirmDialog(
+                        null,
+                        "¿Desea Borrar el registro?",
+                        "",
+                        JOptionPane.YES_NO_OPTION,
+                        JOptionPane.QUESTION_MESSAGE
+                );
+
+                if (respuesta == JOptionPane.YES_OPTION) {
+                    String queryDelete = "DELETE tb_Quiz , tb_quiz_Response\n"
+                            + "FROM tb_Quiz\n"
+                            + "JOIN tb_quiz_Response ON tb_Quiz.idquiz = tb_quiz_Response.fk_id_quiz\n"
+                            + "WHERE idquiz = ?;";
+
+                    try (Connection conn = conexionDB.getDbConnection(); PreparedStatement ps = conn.prepareStatement(queryDelete)) {
+                        ps.setString(1, idRegistro.toString());
+                        ps.execute();
+                        this.consultarTablaPreguntas();
+                        JOptionPane.showMessageDialog(null, "Registro eliminado con éxito!");
+                    } catch (Exception ex) {
+                        JOptionPane.showMessageDialog(null, "Hubo problemas con la eliminación: " + ex);
+                    }
+
+                }
+
+            }
+        }
+
+    }//GEN-LAST:event_tablaPreguntasMouseClicked
 
     public void getDatosCuriososPrimer() {
 
@@ -1591,6 +1649,7 @@ public class Principal extends javax.swing.JFrame {
         dataTable.addColumn("Apellido");
         dataTable.addColumn("Calificación");
         dataTable.addColumn("Fecha");
+        dataTable.addColumn("Tiempo(s)");
         //dataTable.addColumn("");
 
         String queryHistorico = "Select * from tb_historico";
@@ -1598,7 +1657,7 @@ public class Principal extends javax.swing.JFrame {
         try (Connection conn = conexionDB.getDbConnection(); PreparedStatement ps = conn.prepareStatement(queryHistorico)) {
             try (ResultSet rs = ps.executeQuery()) {
                 while (rs.next()) {
-                    dataTable.addRow(new Object[]{rs.getString("nombreAlumno"), rs.getString("apellidoAlumno"), rs.getInt("puntaje"), rs.getDate("fecha")});
+                    dataTable.addRow(new Object[]{rs.getString("nombreAlumno"), rs.getString("apellidoAlumno"), rs.getInt("puntaje"), rs.getDate("fecha"), rs.getInt("tiempo_total")});
                 }
             }
         } catch (Exception e) {
@@ -1612,18 +1671,21 @@ public class Principal extends javax.swing.JFrame {
         DefaultTableModel dataTable = new DefaultTableModel();
         dataTable.addColumn("No.");
         dataTable.addColumn("Pregunta");
+        dataTable.addColumn("Acción");
 
         String querypreguntas = "Select * from tb_Quiz";
+        tablaPreguntas.setDefaultRenderer(Object.class, new render());
+        JButton deleteBtn = new JButton("Eliminar");
 
         try (Connection conn = conexionDB.getDbConnection(); PreparedStatement ps = conn.prepareStatement(querypreguntas)) {
             try (ResultSet rs = ps.executeQuery()) {
                 while (rs.next()) {
-                    dataTable.addRow(new Object[]{rs.getString("idQuiz"), rs.getString("pregunta")});
+                    dataTable.addRow(new Object[]{rs.getString("idQuiz"), rs.getString("pregunta"), deleteBtn});
                 }
             }
         } catch (Exception e) {
         }
-
+        this.tablaPreguntas.setRowHeight(30);
         this.tablaPreguntas.setModel(dataTable);
 
     }
